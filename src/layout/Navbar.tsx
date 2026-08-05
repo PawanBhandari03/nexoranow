@@ -1,57 +1,26 @@
-import { Hexagon } from 'lucide-react';
-import { Reveal } from '../components/Reveal';
-
-const LINKS = [
-  { label: 'Projects', href: '#portfolio', count: '6' },
-  { label: 'About', href: '#about' },
-  { label: 'Blog', href: '#' },
-  { label: 'Contact', href: '#contact' },
-];
+import { FadeIn } from '../components/FadeIn';
 
 export function Navbar() {
   return (
-    <header className="fixed top-0 w-full z-50 border-b border-white/15">
-      <div className="px-5 sm:px-8 md:px-12 flex h-16 sm:h-20 items-center justify-between">
-        
-        {/* Logo */}
-        <Reveal delay={0}>
-          <a href="#" className="flex items-center gap-2">
-            <Hexagon size={24} strokeWidth={1.5} className="text-white" />
-            <span className="text-lg sm:text-xl font-medium tracking-tight text-white">
-              nexoranow
-            </span>
-          </a>
-        </Reveal>
-
-        {/* Links */}
-        <nav className="hidden md:flex items-center gap-8 lg:gap-10">
-          {LINKS.map((link, i) => (
-            <Reveal key={link.label} delay={100 + i * 100}>
-              <a 
-                href={link.href} 
-                className="text-sm text-white/85 hover:text-white transition-colors duration-300 relative"
-              >
-                {link.label}
-                {link.count && (
-                  <sup className="font-mono text-[10px] text-white/60 ml-1">
-                    {link.count}
-                  </sup>
-                )}
-              </a>
-            </Reveal>
-          ))}
-        </nav>
-
-        {/* CTA */}
-        <Reveal delay={500}>
-          <a 
-            href="#contact" 
-            className="rounded-md border border-white/20 bg-white/15 backdrop-blur-md px-4 py-2 text-xs sm:px-5 sm:text-sm text-white hover:bg-white/25 transition-colors duration-300"
-          >
-            Get Free Consultation
-          </a>
-        </Reveal>
+    <nav className="absolute top-0 left-0 w-full z-50">
+      <div className="flex justify-between items-center px-6 md:px-10 pt-6 md:pt-8">
+        <FadeIn delay={0} y={-20} className="w-full">
+          <div className="flex justify-between w-full">
+            <a href="#about" className="text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200">
+              About
+            </a>
+            <a href="#services" className="text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200">
+              Services
+            </a>
+            <a href="#projects" className="text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200">
+              Projects
+            </a>
+            <a href="#contact" className="text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200">
+              Contact
+            </a>
+          </div>
+        </FadeIn>
       </div>
-    </header>
+    </nav>
   );
 }

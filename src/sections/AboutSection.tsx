@@ -1,138 +1,64 @@
-import { motion } from 'framer-motion';
-import { User, Code, Server, ArrowRight, CheckCircle2 } from 'lucide-react';
-
-const TEAM = [
-  {
-    name: 'Rahul',
-    role: 'Full-Stack & UX Engineer',
-    bio: 'Specializing in creating intuitive user interfaces and scalable frontend architectures. Obsessed with pixel-perfect design and smooth user experiences.',
-    icon: <Code size={24} className="text-primary-500" />,
-    skills: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js']
-  },
-  {
-    name: 'Pawan',
-    role: 'Backend & AI Specialist',
-    bio: 'Architecting robust server-side solutions and integrating cutting-edge AI models. Focused on performance, security, and automated workflows.',
-    icon: <Server size={24} className="text-purple-500" />,
-    skills: ['Node.js', 'Python', 'Machine Learning', 'Cloud Architecture']
-  }
-];
-
-const PHILOSOPHY = [
-  'Direct Developer Communication',
-  'No Middlemen or Account Managers',
-  'Agile and Transparent Workflow',
-  'Quality Over Quantity'
-];
+import { FadeIn } from '../components/FadeIn';
+import { AnimatedText } from '../components/AnimatedText';
+import { ContactButton } from '../components/ContactButton';
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-dark-900 border-y border-dark-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Story Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-sm font-semibold tracking-wide text-primary-500 uppercase mb-2">Our Story</h2>
-            <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
-              Two Developers, <br className="hidden md:block" />
-              <span className="text-gradient">Zero Middlemen.</span>
-            </h3>
-            <p className="text-gray-400 text-lg leading-relaxed mb-6">
-              NexoraNow was founded on a simple philosophy: the best digital products are built when clients communicate directly with the engineers building them. We cut out the bloat of traditional agencies to deliver premium software faster and more efficiently.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {PHILOSOPHY.map((item, index) => (
-                <div key={index} className="flex items-center text-sm text-gray-300">
-                  <CheckCircle2 size={16} className="text-primary-500 mr-2 shrink-0" />
-                  {item}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative h-80 lg:h-full min-h-[400px] rounded-3xl overflow-hidden border border-dark-800"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-900/40 to-purple-900/40 mix-blend-overlay z-10" />
-            <img 
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" 
-              alt="Two developers collaborating" 
-              className="absolute inset-0 w-full h-full object-cover grayscale opacity-50"
-            />
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-8">
-              <div className="bg-dark-950/80 backdrop-blur-md p-6 rounded-2xl border border-dark-800">
-                <User size={40} className="text-primary-500 mx-auto mb-4" />
-                <h4 className="text-xl font-bold text-white">Rahul & Pawan</h4>
-                <p className="text-gray-400 text-sm">Founders & Lead Engineers</p>
-              </div>
-            </div>
-          </motion.div>
+    <section id="about" className="relative min-h-screen flex flex-col items-center justify-center px-5 sm:px-8 md:px-10 py-20 bg-[#0C0C0C] overflow-hidden">
+      
+      {/* Decorative 3D Elements */}
+      <FadeIn delay={0.1} x={-80} y={0} duration={0.9} className="absolute top-[4%] left-[1%] sm:left-[2%] md:left-[4%]">
+        <img 
+          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png" 
+          alt="" 
+          className="w-[120px] sm:w-[160px] md:w-[210px]"
+        />
+      </FadeIn>
+      
+      <FadeIn delay={0.25} x={-80} y={0} duration={0.9} className="absolute bottom-[8%] left-[3%] sm:left-[6%] md:left-[10%]">
+        <img 
+          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" 
+          alt="" 
+          className="w-[100px] sm:w-[140px] md:w-[180px]"
+        />
+      </FadeIn>
+
+      <FadeIn delay={0.15} x={80} y={0} duration={0.9} className="absolute top-[4%] right-[1%] sm:right-[2%] md:right-[4%]">
+        <img 
+          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png" 
+          alt="" 
+          className="w-[120px] sm:w-[160px] md:w-[210px]"
+        />
+      </FadeIn>
+
+      <FadeIn delay={0.3} x={80} y={0} duration={0.9} className="absolute bottom-[8%] right-[3%] sm:right-[6%] md:right-[10%]">
+        <img 
+          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png" 
+          alt="" 
+          className="w-[130px] sm:w-[170px] md:w-[220px]"
+        />
+      </FadeIn>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center w-full max-w-5xl">
+        <FadeIn delay={0} y={40}>
+          <h2 className="hero-heading font-black uppercase leading-none tracking-tight text-center text-[clamp(3rem,12vw,160px)]">
+            About Us
+          </h2>
+        </FadeIn>
+
+        <div className="mt-10 sm:mt-14 md:mt-16 w-full flex justify-center">
+          <AnimatedText 
+            text="With more than five years of experience in software development and AI engineering, we focus on building robust digital ecosystems and intelligent workflows. We truly enjoy working with businesses that aim to stand out, scale efficiently, and present their best image. Let's build something incredible together!"
+            className="text-[#D7E2EA] font-medium text-center leading-relaxed max-w-[560px] text-[clamp(1rem,2vw,1.35rem)]"
+          />
         </div>
 
-        {/* Bios Section */}
-        <div className="mb-24">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold text-white">The Engineering Team</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {TEAM.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-dark-950 p-8 rounded-2xl border border-dark-800 hover:border-dark-700 transition-colors"
-              >
-                <div className="flex items-center mb-6">
-                  <div className="w-14 h-14 bg-dark-900 rounded-xl flex items-center justify-center border border-dark-800 mr-4">
-                    {member.icon}
-                  </div>
-                  <div>
-                    <h4 className="text-2xl font-bold text-white">{member.name}</h4>
-                    <p className="text-primary-400">{member.role}</p>
-                  </div>
-                </div>
-                <p className="text-gray-400 mb-6 leading-relaxed min-h-[80px]">
-                  {member.bio}
-                </p>
-                <div>
-                  <p className="text-sm font-semibold text-white mb-3">Core Stack:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {member.skills.map(skill => (
-                      <span key={skill} className="bg-dark-900 border border-dark-800 text-gray-300 text-xs px-3 py-1.5 rounded-full">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="text-center">
-          <a
-            href="#contact"
-            className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-primary-600 hover:bg-primary-500 rounded-full transition-all group"
-          >
-            Work With Us Directly
-            <ArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" size={20} />
-          </a>
-        </div>
-        
+        <FadeIn delay={0.4} y={30} className="mt-16 sm:mt-20 md:mt-24">
+          <ContactButton />
+        </FadeIn>
       </div>
+
     </section>
   );
 }

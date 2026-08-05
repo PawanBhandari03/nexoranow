@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 const VIDEO_URL = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260729_102822_0e6c87e8-c141-4744-bf32-ad30db296371.mp4';
-const POSTER_URL = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260729_102822_0e6c87e8-c141-4744-bf32-ad30db296371-poster.jpg'; // Using a placeholder for poster since it wasn't strictly provided, or I can just use the video itself. The prompt said: Optional local mirrors: /hero-poster.jpg. I'll just skip the poster src and let the video load, or use an empty string. I'll omit the `src` on the img if it fails. Actually, I'll use the video's first frame.
 
 export function ScrollVideo() {
   const containerRef = useRef<HTMLDivElement>(null);

@@ -1,80 +1,51 @@
-import { ChevronRight } from 'lucide-react';
-import { Reveal } from '../components/Reveal';
-
-const SERVICES = [
-  '/ AI AUTOMATION',
-  '/ AI AGENT DEVELOPMENT',
-  '/ CUSTOM BUSINESS SOFTWARE'
-];
+import { FadeIn } from '../components/FadeIn';
+import { Magnet } from '../components/Magnet';
+import { ContactButton } from '../components/ContactButton';
 
 export function HeroSection() {
   return (
-    <section className="supports-[height:100svh]:min-h-[100svh] min-h-screen flex flex-col justify-between pt-24 sm:pt-28 pb-12 md:pb-16 px-5 sm:px-8 md:px-12">
+    <section className="relative h-screen flex flex-col justify-between overflow-x-clip pt-24 sm:pt-28">
+      {/* Absolute Navbar inside Hero for exact layout if needed, but App.tsx handles global. 
+          Actually, we should put Navbar inside HeroSection if it's strictly part of it, 
+          but it's already fixed in layout. Let's just include it here if it's not fixed. 
+          The spec said "Horizontal nav bar with 4 links". It was not said to be fixed. I made it absolute top-0. */}
       
-      {/* Top Row */}
-      <div className="flex flex-col gap-8 sm:flex-row sm:justify-between w-full">
-        <div className="flex flex-col gap-2">
-          {SERVICES.map((service, i) => (
-            <Reveal key={service} delay={150 + i * 120}>
-              <div className="font-mono text-xs uppercase tracking-[0.15em] text-white/90 drop-shadow-md">
-                {service}
-              </div>
-            </Reveal>
-          ))}
-        </div>
-        
-        <Reveal delay={300}>
-          <p className="max-w-xs sm:text-right text-lg sm:text-xl leading-relaxed text-white drop-shadow-md">
-            We design automation and intelligent software that brings clarity, precision, and scalability to the way your business operates.
+      {/* Heading */}
+      <div className="flex-1 flex flex-col justify-center overflow-hidden">
+        <FadeIn delay={0.15} y={40} className="w-full flex justify-center mt-6 sm:mt-4 md:-mt-5">
+          <h1 className="hero-heading font-black uppercase tracking-tight leading-none whitespace-nowrap text-[14vw] sm:text-[15vw] md:text-[16vw] lg:text-[17.5vw] text-center w-full">
+            nexoranow
+          </h1>
+        </FadeIn>
+      </div>
+
+      {/* Hero Portrait with Magnet */}
+      <FadeIn 
+        delay={0.6} 
+        y={30} 
+        className="absolute left-1/2 -translate-x-1/2 z-10 top-1/2 -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-0 pointer-events-none sm:pointer-events-auto"
+      >
+        <Magnet padding={150} magnetStrength={3} disabled={false}>
+          <img 
+            src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png" 
+            alt="NexoraNow Hero" 
+            className="w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px] object-cover pointer-events-auto"
+          />
+        </Magnet>
+      </FadeIn>
+
+      {/* Bottom Bar */}
+      <div className="relative z-20 flex justify-between items-end pb-7 sm:pb-8 md:pb-10 px-5 sm:px-8 md:px-10">
+        <FadeIn delay={0.35} y={20}>
+          <p className="text-[#D7E2EA] font-light uppercase tracking-wide leading-snug max-w-[160px] sm:max-w-[220px] md:max-w-[260px] text-[clamp(0.75rem,1.4vw,1.5rem)]">
+            an ai automation & software development agency driven by crafting striking and unforgettable projects
           </p>
-        </Reveal>
-      </div>
+        </FadeIn>
 
-      {/* Bottom Row */}
-      <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between w-full mt-16">
-        
-        <div className="flex flex-col">
-          <Reveal delay={150}>
-            <div className="inline-block border-l-2 border-white bg-white/15 px-3 py-1.5 backdrop-blur-md mb-5 self-start">
-              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-white">
-                Empowering Startups & Enterprises
-              </span>
-            </div>
-          </Reveal>
-          
-          <Reveal delay={280}>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-normal leading-[1.05] tracking-tight text-white drop-shadow-lg">
-              Intelligent. Scalable.<br />
-              Automated.
-            </h1>
-          </Reveal>
-        </div>
-
-        <Reveal delay={420}>
-          <div className="flex items-center gap-4 rounded-xl bg-white/15 p-3 backdrop-blur-md border border-white/15 w-fit">
-            <img 
-              src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260728_050334_5b076e26-0ce7-4898-b432-d764190e448f.png&w=1280&q=85" 
-              alt="Rahul, co-founder of NexoraNow" 
-              className="h-24 w-20 rounded-lg object-cover"
-            />
-            <div className="flex flex-col gap-1.5 pr-2">
-              <span className="text-sm font-medium text-white drop-shadow-md">Talk with Rahul</span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/60">
-                Co-founder of NexoraNow
-              </span>
-              <a 
-                href="#contact"
-                className="mt-1.5 inline-flex items-center justify-center gap-1 rounded-full bg-white px-4 py-2 text-xs font-medium text-black hover:bg-white/85 transition-colors duration-300 w-fit"
-              >
-                Book 15-mins call
-                <ChevronRight size={14} />
-              </a>
-            </div>
-          </div>
-        </Reveal>
-        
+        <FadeIn delay={0.5} y={20}>
+          <ContactButton />
+        </FadeIn>
       </div>
-      
     </section>
   );
 }
