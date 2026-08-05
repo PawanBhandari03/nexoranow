@@ -26,7 +26,7 @@ const PLANS = [
 ];
 
 interface PricingSectionProps {
-  onSelectPlan?: (plan: string) => void;
+  onSelectPlan?: (planName: string) => void;
 }
 
 export function PricingSection({ onSelectPlan }: PricingSectionProps) {
@@ -34,7 +34,7 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
     <section id="pricing" className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-sm font-semibold tracking-wide text-primary-500 uppercase">Investment</h2>
+          <h2 className="text-sm font-semibold tracking-wide text-[#B600A8] uppercase">Investment</h2>
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
             Transparent Pricing Options
           </p>
@@ -50,13 +50,13 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`rounded-2xl p-8 relative flex flex-col ${
                 plan.highlighted 
-                  ? 'bg-gradient-to-b from-primary-900/40 to-dark-900 border border-primary-500 shadow-[0_0_30px_rgba(59,130,246,0.15)]' 
-                  : 'bg-dark-900 border border-dark-800'
+                  ? 'bg-gradient-to-b from-[#18011F]/60 to-[#101010] border border-[#B600A8] shadow-[0_0_30px_rgba(182,0,168,0.2)]' 
+                  : 'bg-[#121212] border border-white/10'
               }`}
             >
               {plan.highlighted && (
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <span className="bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                  <span className="bg-[#B600A8] text-white text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wide shadow-md">
                     Most Popular
                   </span>
                 </div>
@@ -71,18 +71,26 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
               <ul className="space-y-4 mb-8 flex-1">
                 {plan.features.map(feature => (
                   <li key={feature} className="flex items-start">
-                    <Check className="text-primary-500 mr-3 shrink-0" size={20} />
+                    <Check className="text-[#B600A8] mr-3 shrink-0" size={20} />
                     <span className="text-gray-300 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
               
               <button
-                onClick={() => onSelectPlan?.(plan.name)}
-                className={`w-full py-3 rounded-lg font-semibold text-center transition-all ${
+                type="button"
+                onClick={() => {
+                  if (onSelectPlan) {
+                    onSelectPlan(`${plan.name} Plan`);
+                  } else {
+                    const contact = document.getElementById('contact');
+                    if (contact) contact.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className={`w-full py-3.5 rounded-full font-bold text-xs uppercase tracking-wider text-center transition-transform hover:scale-105 active:scale-95 cursor-pointer ${
                   plan.highlighted
-                    ? 'bg-primary-600 hover:bg-primary-500 text-white'
-                    : 'bg-dark-800 hover:bg-dark-700 text-white'
+                    ? 'bg-[#B600A8] hover:bg-[#a00094] text-white shadow-lg'
+                    : 'bg-white/10 hover:bg-white/20 text-white'
                 }`}
               >
                 Get Started

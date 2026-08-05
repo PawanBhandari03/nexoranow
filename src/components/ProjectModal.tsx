@@ -8,6 +8,9 @@ export interface ProjectData {
   category: string;
   name: string;
   imgs: string[];
+  description?: string;
+  techStack?: string[];
+  liveUrl?: string;
 }
 
 interface ProjectModalProps {

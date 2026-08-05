@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowUpRight, Sparkles, ChevronDown, Radio } from 'lucide-react';
+import { X, ArrowUpRight, Sparkles, ChevronDown } from 'lucide-react';
 
 interface NavbarProps {
   onOpenConsultation?: () => void;
@@ -50,26 +50,17 @@ export function Navbar({ onOpenConsultation }: NavbarProps) {
       >
         <div className="flex items-center justify-between px-4 py-2 sm:px-6 sm:py-2.5 gap-4 sm:gap-6 min-h-[48px]">
           
-          {/* Left: Dynamic Brand & Sensor Dot */}
+          {/* Left: Clean Brand Logo */}
           <a href="#" className="flex items-center gap-2.5 group shrink-0">
-            <div className="relative flex items-center justify-center">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#B600A8] via-[#7621B0] to-[#BE4C00] flex items-center justify-center font-black text-white text-xs shadow-[0_0_12px_rgba(182,0,168,0.6)] group-hover:scale-105 transition-transform">
-                N
-              </div>
-              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 border-2 border-[#070709] rounded-full animate-pulse" />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#B600A8] via-[#7621B0] to-[#BE4C00] flex items-center justify-center font-black text-white text-xs shadow-[0_0_12px_rgba(182,0,168,0.6)] group-hover:scale-105 transition-transform">
+              N
             </div>
-
-            <div className="flex flex-col">
-              <span className="font-black text-sm sm:text-base uppercase tracking-tight text-white group-hover:text-[#D7E2EA] transition-colors leading-none">
-                Nexora<span className="text-[#B600A8]">Now</span>
-              </span>
-              <span className="hidden sm:flex items-center gap-1 text-[9px] font-medium tracking-wider uppercase text-emerald-400/90 leading-tight">
-                <Radio size={8} className="animate-spin" /> Available Q3
-              </span>
-            </div>
+            <span className="font-black text-sm sm:text-base uppercase tracking-tight text-white group-hover:text-[#D7E2EA] transition-colors leading-none">
+              Nexora<span className="text-[#B600A8]">Now</span>
+            </span>
           </a>
 
-          {/* Center: Nav Links (1 Line) */}
+          {/* Center: Dynamic Island Nav Links */}
           <AnimatePresence mode="wait">
             {isOpen && (
               <motion.div
@@ -93,7 +84,7 @@ export function Navbar({ onOpenConsultation }: NavbarProps) {
             )}
           </AnimatePresence>
 
-          {/* Right: CTA & Mobile Drawer Toggle */}
+          {/* Right: Dynamic CTA Button & Toggle */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {!isOpen && (
               <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-[10px] uppercase font-semibold text-gray-300 border border-white/10">
@@ -144,9 +135,6 @@ export function Navbar({ onOpenConsultation }: NavbarProps) {
                 </a>
               ))}
               <div className="pt-2 flex justify-between items-center text-xs text-gray-400">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" /> Live Status: Online
-                </span>
                 <span className="text-[#B600A8] font-semibold">NexoraNow</span>
               </div>
             </motion.div>
