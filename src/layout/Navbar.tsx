@@ -1,106 +1,57 @@
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Hexagon } from 'lucide-react';
+import { Reveal } from '../components/Reveal';
 
-const NAV_LINKS = [
-  { name: 'Services', href: '#services' },
-  { name: 'Portfolio', href: '#portfolio' },
-  { name: 'Process', href: '#process' },
-  { name: 'Testimonials', href: '#testimonials' },
-  { name: 'Pricing', href: '#pricing' },
-  { name: 'FAQ', href: '#faq' },
+const LINKS = [
+  { label: 'Projects', href: '#portfolio', count: '6' },
+  { label: 'About', href: '#about' },
+  { label: 'Blog', href: '#' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent ${
-        scrolled ? 'bg-dark-950/80 backdrop-blur-md border-dark-800 py-3' : 'bg-transparent py-5'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
-          {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <a href="#" className="text-2xl font-bold tracking-tighter text-white">
-              Nexora<span className="text-primary-500">Now</span>
-            </a>
-          </div>
+    <header className="fixed top-0 w-full z-50 border-b border-white/15">
+      <div className="px-5 sm:px-8 md:px-12 flex h-16 sm:h-20 items-center justify-between">
+        
+        {/* Logo */}
+        <Reveal delay={0}>
+          <a href="#" className="flex items-center gap-2">
+            <Hexagon size={24} strokeWidth={1.5} className="text-white" />
+            <span className="text-lg sm:text-xl font-medium tracking-tight text-white">
+              nexoranow
+            </span>
+          </a>
+        </Reveal>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex space-x-8">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+        {/* Links */}
+        <nav className="hidden md:flex items-center gap-8 lg:gap-10">
+          {LINKS.map((link, i) => (
+            <Reveal key={link.label} delay={100 + i * 100}>
+              <a 
+                href={link.href} 
+                className="text-sm text-white/85 hover:text-white transition-colors duration-300 relative"
               >
-                {link.name}
+                {link.label}
+                {link.count && (
+                  <sup className="font-mono text-[10px] text-white/60 ml-1">
+                    {link.count}
+                  </sup>
+                )}
               </a>
-            ))}
-          </nav>
+            </Reveal>
+          ))}
+        </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center">
-            <a
-              href="#contact"
-              className="glow-effect bg-primary-600 hover:bg-primary-500 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all"
-            >
-              Start a Project
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex items-center md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-300 hover:text-white focus:outline-none"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
+        {/* CTA */}
+        <Reveal delay={500}>
+          <a 
+            href="#contact" 
+            className="rounded-md border border-white/20 bg-white/15 backdrop-blur-md px-4 py-2 text-xs sm:px-5 sm:text-sm text-white hover:bg-white/25 transition-colors duration-300"
+          >
+            Get Free Consultation
+          </a>
+        </Reveal>
       </div>
-
-      {/* Mobile Nav */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="md:hidden bg-dark-900 border-b border-dark-800"
-        >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-dark-800"
-              >
-                {link.name}
-              </a>
-            ))}
-            <a
-              href="#contact"
-              onClick={() => setIsOpen(false)}
-              className="block mt-4 px-3 py-2 rounded-md text-base font-medium text-center text-white bg-primary-600 hover:bg-primary-500"
-            >
-              Start a Project
-            </a>
-          </div>
-        </motion.div>
-      )}
     </header>
   );
 }
