@@ -2,8 +2,9 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { LiveProjectButton } from '../components/LiveProjectButton';
 import { FadeIn } from '../components/FadeIn';
+import type { ProjectData } from '../components/ProjectModal';
 
-const PROJECTS = [
+const PROJECTS: ProjectData[] = [
   {
     num: '01',
     category: 'Client',
@@ -36,7 +37,11 @@ const PROJECTS = [
   }
 ];
 
-export function ProjectsSection() {
+interface ProjectsSectionProps {
+  onSelectProject?: (project: ProjectData) => void;
+}
+
+export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
   return (
     <section id="projects" className="bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 relative z-20 px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-32">
       
@@ -48,7 +53,13 @@ export function ProjectsSection() {
 
       <div className="max-w-7xl mx-auto flex flex-col mt-10">
         {PROJECTS.map((proj, i) => (
-          <ProjectCard key={proj.num} index={i} totalCards={PROJECTS.length} project={proj} />
+          <ProjectCard 
+            key={proj.num} 
+            index={i} 
+            totalCards={PROJECTS.length} 
+            project={proj} 
+            onSelect={() => onSelectProject?.(proj)} 
+          />
         ))}
       </div>
 
@@ -56,7 +67,7 @@ export function ProjectsSection() {
   );
 }
 
-const ProjectCard = ({ index, totalCards, project }: any) => {
+const ProjectCard = ({ index, totalCards, project, onSelect }: { index: number, totalCards: number, project: ProjectData, onSelect: () => void }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -92,7 +103,9 @@ const ProjectCard = ({ index, totalCards, project }: any) => {
               </h3>
             </div>
           </div>
-          <LiveProjectButton />
+          <button onClick={onSelect} className="group relative">
+            <LiveProjectButton label="View Details" className="pointer-events-none" />
+          </button>
         </div>
 
         {/* Bottom Row - Grid */}

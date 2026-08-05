@@ -25,7 +25,11 @@ const PLANS = [
   }
 ];
 
-export function PricingSection() {
+interface PricingSectionProps {
+  onSelectPlan?: (plan: string) => void;
+}
+
+export function PricingSection({ onSelectPlan }: PricingSectionProps) {
   return (
     <section id="pricing" className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -73,8 +77,8 @@ export function PricingSection() {
                 ))}
               </ul>
               
-              <a
-                href="#contact"
+              <button
+                onClick={() => onSelectPlan?.(plan.name)}
                 className={`w-full py-3 rounded-lg font-semibold text-center transition-all ${
                   plan.highlighted
                     ? 'bg-primary-600 hover:bg-primary-500 text-white'
@@ -82,7 +86,7 @@ export function PricingSection() {
                 }`}
               >
                 Get Started
-              </a>
+              </button>
             </motion.div>
           ))}
         </div>

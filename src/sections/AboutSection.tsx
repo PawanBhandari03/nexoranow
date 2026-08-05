@@ -1,64 +1,83 @@
 import { FadeIn } from '../components/FadeIn';
 import { AnimatedText } from '../components/AnimatedText';
-import { ContactButton } from '../components/ContactButton';
+import { LiveProjectButton } from '../components/LiveProjectButton';
+import { Bot, Cpu, Layout, Layers } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const FEATURES = [
+  { icon: Cpu, title: 'AI Automation', desc: 'Automate repetitive workflows and business operations.' },
+  { icon: Bot, title: 'AI Agents', desc: 'Custom AI assistants designed for your company.' },
+  { icon: Layout, title: 'Full Stack Development', desc: 'Modern scalable web applications built for growth.' },
+  { icon: Layers, title: 'SaaS Solutions', desc: 'End-to-end software products from idea to deployment.' },
+];
 
 export function AboutSection() {
   return (
-    <section id="about" className="relative min-h-screen flex flex-col items-center justify-center px-5 sm:px-8 md:px-10 py-20 bg-[#0C0C0C] overflow-hidden">
-      
-      {/* Decorative 3D Elements */}
-      <FadeIn delay={0.1} x={-80} y={0} duration={0.9} className="absolute top-[4%] left-[1%] sm:left-[2%] md:left-[4%]">
-        <img 
-          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png" 
-          alt="" 
-          className="w-[120px] sm:w-[160px] md:w-[210px]"
-        />
-      </FadeIn>
-      
-      <FadeIn delay={0.25} x={-80} y={0} duration={0.9} className="absolute bottom-[8%] left-[3%] sm:left-[6%] md:left-[10%]">
-        <img 
-          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" 
-          alt="" 
-          className="w-[100px] sm:w-[140px] md:w-[180px]"
-        />
-      </FadeIn>
+    <section id="about" className="relative min-h-screen flex items-center justify-center px-5 sm:px-8 md:px-10 py-20 bg-[#0C0C0C] overflow-hidden">
+      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 xl:gap-20 items-center relative z-10">
+        
+        {/* Left Column */}
+        <div className="flex flex-col">
+          <FadeIn delay={0} y={40}>
+            <h2 className="hero-heading font-black uppercase text-[clamp(3rem,8vw,100px)] mb-2 leading-none">
+              About Us
+            </h2>
+          </FadeIn>
 
-      <FadeIn delay={0.15} x={80} y={0} duration={0.9} className="absolute top-[4%] right-[1%] sm:right-[2%] md:right-[4%]">
-        <img 
-          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png" 
-          alt="" 
-          className="w-[120px] sm:w-[160px] md:w-[210px]"
-        />
-      </FadeIn>
+          <FadeIn delay={0.1} y={40}>
+            <h3 className="text-xl sm:text-2xl font-medium text-white/80 leading-relaxed mb-8">
+              Building intelligent software for businesses that want to scale.
+            </h3>
+          </FadeIn>
 
-      <FadeIn delay={0.3} x={80} y={0} duration={0.9} className="absolute bottom-[8%] right-[3%] sm:right-[6%] md:right-[10%]">
-        <img 
-          src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png" 
-          alt="" 
-          className="w-[130px] sm:w-[170px] md:w-[220px]"
-        />
-      </FadeIn>
+          <div className="mb-12 max-w-[650px]">
+            <AnimatedText 
+              text="We're Rahul and Pawan, founders of NexoraNow. We partner with startups and growing businesses to build AI-powered software, intelligent automation, and modern web applications. From custom SaaS platforms and AI agents to workflow automation and enterprise software, we build technology that helps companies save time, improve efficiency, and grow faster."
+              className="text-[#D7E2EA] font-medium leading-relaxed text-[clamp(1rem,1.5vw,1.25rem)] text-left justify-start"
+            />
+          </div>
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center w-full max-w-5xl">
-        <FadeIn delay={0} y={40}>
-          <h2 className="hero-heading font-black uppercase leading-none tracking-tight text-center text-[clamp(3rem,12vw,160px)]">
-            About Us
-          </h2>
-        </FadeIn>
+          <div className="flex flex-col gap-6 mb-12">
+            {FEATURES.map((feat, i) => {
+              const Icon = feat.icon;
+              return (
+                <FadeIn key={feat.title} delay={0.3 + (i * 0.1)} y={20} className="flex items-start gap-5">
+                  <div className="mt-1 flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 shrink-0 text-[#D7E2EA]">
+                    <Icon size={24} strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-semibold text-lg sm:text-xl tracking-wide">{feat.title}</h4>
+                    <p className="text-[#D7E2EA]/70 text-sm sm:text-base mt-1">{feat.desc}</p>
+                  </div>
+                </FadeIn>
+              )
+            })}
+          </div>
 
-        <div className="mt-10 sm:mt-14 md:mt-16 w-full flex justify-center">
-          <AnimatedText 
-            text="With more than five years of experience in software development and AI engineering, we focus on building robust digital ecosystems and intelligent workflows. We truly enjoy working with businesses that aim to stand out, scale efficiently, and present their best image. Let's build something incredible together!"
-            className="text-[#D7E2EA] font-medium text-center leading-relaxed max-w-[560px] text-[clamp(1rem,2vw,1.35rem)]"
-          />
+          <FadeIn delay={0.8} y={30} className="flex flex-wrap items-center gap-4">
+            <LiveProjectButton label="View Our Projects" href="#projects" />
+          </FadeIn>
         </div>
 
-        <FadeIn delay={0.4} y={30} className="mt-16 sm:mt-20 md:mt-24">
-          <ContactButton />
-        </FadeIn>
-      </div>
+        {/* Right Column */}
+        <div className="relative w-full h-full min-h-[500px] lg:min-h-[700px] flex items-center justify-center mt-10 lg:mt-0">
+          {/* Radial Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[#7721B1]/30 rounded-full blur-[120px] pointer-events-none" />
+          
+          {/* Floating Glass Container */}
+          <motion.div 
+            animate={{ y: [0, -20, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="relative w-full max-w-[450px] aspect-[4/5] rounded-[40px] border border-white/10 bg-white/5 backdrop-blur-xl flex flex-col items-center justify-center overflow-hidden shadow-2xl"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+            <span className="text-[#D7E2EA]/50 font-medium tracking-widest uppercase text-sm sm:text-base z-10 text-center px-6">
+              Team / Workspace / AI Illustration
+            </span>
+          </motion.div>
+        </div>
 
+      </div>
     </section>
   );
 }
