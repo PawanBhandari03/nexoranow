@@ -20,7 +20,7 @@ function Scene() {
   }, []);
 
   // Animate group based on mouse
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (groupRef.current) {
       // Smoothly interpolate rotation towards mouse position
       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, mouse.y * 0.3, delta * 2);
