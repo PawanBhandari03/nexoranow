@@ -4,44 +4,56 @@ import { LiveProjectButton } from '../components/LiveProjectButton';
 import { FadeIn } from '../components/FadeIn';
 import type { ProjectData } from '../components/ProjectModal';
 
+import fintaxHero from '../assets/fintaxvers/hero.png';
+import fintaxServices from '../assets/fintaxvers/services.png';
+import fintaxResources from '../assets/fintaxvers/resources.png';
+
+import silverOakHero from '../assets/silveroak/hero.png';
+import silverOakSpecialties from '../assets/silveroak/specialties.png';
+import silverOakLocation from '../assets/silveroak/location.png';
+
+import instaImg from '../assets/social_seo/instagram.png';
+import whatsappImg from '../assets/social_seo/whatsapp.png';
+import seoImg from '../assets/social_seo/seo.png';
+
 export const PROJECTS: ProjectData[] = [
   {
     num: '01',
-    category: 'Client',
-    name: 'Nextlevel Studio',
-    description: 'A high-converting web platform engineered for a premier creative studio, featuring smooth 3D interactions, high-speed performance, and dynamic project showcase modules.',
-    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite'],
-    liveUrl: 'https://nextlevelstudio.demo',
+    category: 'FinTech & Tax Portal',
+    name: 'FinTaxVers',
+    description: 'Comprehensive financial & tax consultancy platform based in Nagpur. Features seamless ITR filing, GST registration & returns, company incorporation, MCA compliance, CMA data & project financing, interactive tax calculators, and a hub with 33+ verified financial & government resources.',
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Node.js', 'Tax Automation'],
+    liveUrl: 'https://fintaxvers.com',
     imgs: [
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85',
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85',
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85'
+      fintaxHero,
+      fintaxServices,
+      fintaxResources
     ]
   },
   {
     num: '02',
-    category: 'Personal',
-    name: 'Aura Brand Identity',
-    description: 'Next-generation luxury visual branding and digital identity design suite powered by AI-driven asset generators and responsive design design systems.',
-    techStack: ['AI Automation', 'Next.js', 'PostgreSQL', 'Tailwind CSS', 'Canvas API'],
-    liveUrl: 'https://aurabrand.demo',
+    category: 'Hospitality & Fine Dining',
+    name: 'Hotel Silver Oak',
+    description: 'A premium fine dining restaurant web platform designed for Hotel Silver Oak in Wagholi, Pune. Features an elegant interactive menu, signature North Indian, Tandoori, Chinese & Seafood dish showcases, instant online order integration, 4★ Google rating highlights, and integrated location routing.',
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Google Maps API', 'Online Reservation'],
+    liveUrl: 'https://hotelsilveroak.netlify.app/',
     imgs: [
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85',
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85',
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85'
+      silverOakHero,
+      silverOakSpecialties,
+      silverOakLocation
     ]
   },
   {
     num: '03',
-    category: 'Client',
-    name: 'Solaris Digital',
-    description: 'Enterprise AI Agent architecture integrated into customer support and automated operations, reducing handling times by 70% and increasing user satisfaction.',
-    techStack: ['Python', 'LangChain', 'FastAPI', 'React', 'OpenAI / Claude API'],
-    liveUrl: 'https://solarisdigital.demo',
+    category: 'Social Growth & SEO Engine',
+    name: 'Social, WhatsApp & SEO Suite',
+    description: 'All-in-one organic growth, automated messaging, and search ranking suite. Features end-to-end Instagram page handling with viral content strategy, WhatsApp Business catalog & chatbot automated lead capture, and technical Google SEO building for #1 local search visibility.',
+    techStack: ['Instagram Management', 'WhatsApp Business API', 'Local Google SEO', 'Meta Suite', 'Chatbot Automation', 'Keyword Strategy'],
+    liveUrl: 'https://nexoranow.com',
     imgs: [
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85',
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85',
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85'
+      instaImg,
+      whatsappImg,
+      seoImg
     ]
   }
 ];
