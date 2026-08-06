@@ -26,7 +26,7 @@ const PLANS = [
 ];
 
 interface PricingSectionProps {
-  onSelectPlan?: (plan: string) => void;
+  onSelectPlan?: (planName: string) => void;
 }
 
 export function PricingSection({ onSelectPlan }: PricingSectionProps) {
@@ -83,8 +83,16 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
               </ul>
               
               <button
-                onClick={() => onSelectPlan?.(plan.name)}
-                className={`w-full rounded-full py-3 flex items-center justify-center transition-all duration-300 border ${
+                type="button"
+                onClick={() => {
+                  if (onSelectPlan) {
+                    onSelectPlan(`${plan.name} Plan`);
+                  } else {
+                    const contact = document.getElementById('contact');
+                    if (contact) contact.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className={`w-full rounded-full py-3 flex items-center justify-center transition-all duration-300 border cursor-pointer ${
                   plan.highlighted 
                     ? 'bg-[#B600A8]/20 border-[#B600A8] hover:bg-[#B600A8]/40 text-white shadow-[0_0_15px_rgba(182,0,168,0.3)]'
                     : 'bg-transparent border-white/20 hover:border-white/50 hover:bg-white/5 text-white'

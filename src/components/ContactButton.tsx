@@ -7,10 +7,22 @@ interface ContactButtonProps {
 }
 
 export function ContactButton({ label = "Book a Free Consultation", onClick, className = "" }: ContactButtonProps) {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClick) {
+      onClick();
+    } else {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <button
-      onClick={onClick}
-      className={`group relative transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${className}`}
+      onClick={handleClick}
+      className={`group relative transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer ${className}`}
     >
       {/* Top Left Bracket */}
       <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#B600A8] group-hover:w-full group-hover:h-full group-hover:border-[#B600A8]/50 transition-all duration-500 z-20 pointer-events-none" />

@@ -55,7 +55,7 @@ export function Navbar({ onOpenConsultation }: NavbarProps) {
         <div className="relative z-10 bg-[#0A0A0D]/85 backdrop-blur-2xl rounded-[32px] overflow-hidden flex flex-col text-white">
           <div className="flex items-center justify-between px-4 py-2 sm:px-6 sm:py-2.5 gap-4 sm:gap-6 min-h-[48px]">
             
-            {/* Left: Dynamic Brand & Sensor Dot */}
+            {/* Left: Dynamic Brand Logo */}
             <a href="#" className="flex items-center gap-2.5 group shrink-0">
               <div className="relative flex items-center justify-center">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#B600A8] via-[#7621B0] to-[#00D4FF] flex items-center justify-center font-black text-white text-xs shadow-[0_0_12px_rgba(182,0,168,0.6)] group-hover:scale-105 transition-transform">
@@ -74,7 +74,7 @@ export function Navbar({ onOpenConsultation }: NavbarProps) {
               </div>
             </a>
 
-            {/* Center: Nav Links (1 Line) */}
+            {/* Center: Nav Links */}
             <AnimatePresence mode="wait">
               {isOpen && (
                 <motion.div
@@ -106,17 +106,13 @@ export function Navbar({ onOpenConsultation }: NavbarProps) {
                 </span>
               )}
 
-              {/* Restyled Book Call Button (HUD Style) */}
+              {/* Book Call Button */}
               <button
                 onClick={onOpenConsultation}
-                className="group/btn relative transition-all duration-300 hover:scale-105 active:scale-95 flex items-center cursor-pointer"
+                className="group/btn relative transition-all duration-300 hover:scale-105 active:scale-95 flex items-center cursor-pointer rounded-full overflow-hidden"
               >
-                {/* HUD Brackets */}
-                <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[#B600A8] group-hover/btn:w-full group-hover/btn:h-full group-hover/btn:border-[#B600A8]/50 transition-all duration-500 z-20 pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[#00D4FF] group-hover/btn:w-full group-hover/btn:h-full group-hover/btn:border-[#00D4FF]/50 transition-all duration-500 z-20 pointer-events-none" />
-
-                <div className="relative h-full w-full bg-[#0A0A0D]/90 backdrop-blur-md px-4 py-2 sm:px-5 sm:py-2 flex items-center gap-1.5 transition-colors duration-500 group-hover/btn:bg-[#0A0A0D]/70 shadow-md">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8]/0 via-[#7621B0]/10 to-[#00D4FF]/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="relative h-full w-full bg-[#0A0A0D]/90 backdrop-blur-md px-4 py-2 sm:px-5 sm:py-2 flex items-center gap-1.5 transition-colors duration-500 border border-white/15 hover:border-[#B600A8]/50 rounded-full shadow-md">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8]/20 via-[#7621B0]/20 to-[#00D4FF]/20 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   <span className="relative z-10 text-xs font-bold uppercase tracking-widest text-white whitespace-nowrap">Book Call</span>
                   <ArrowUpRight size={13} className="text-white relative z-10" />
                 </div>
