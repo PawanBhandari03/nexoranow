@@ -1,7 +1,29 @@
-import { useRef, useState, useEffect } from 'react';
+import { Component, type ReactNode, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Environment } from '@react-three/drei';
 import * as THREE from 'three';
+
+class ThreeErrorBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: ReactNode; fallback: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.warn('3D Canvas fallback triggered:', error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
 
 function Scene() {
   const groupRef = useRef<THREE.Group>(null);
@@ -20,7 +42,7 @@ function Scene() {
   }, []);
 
   // Animate group based on mouse
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (groupRef.current) {
       // Smoothly interpolate rotation towards mouse position
       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, mouse.y * 0.3, delta * 2);
@@ -86,6 +108,7 @@ function Scene() {
 
 export function Hero3DShapes() {
   const [isMobile, setIsMobile] = useState(false);
+  const [hasWebGL, setHasWebGL] = useState(true);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -93,27 +116,42 @@ export function Hero3DShapes() {
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
+
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) setHasWebGL(false);
+    } catch {
+      setHasWebGL(false);
+    }
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  if (isMobile) {
-    // Fallback for mobile: A CSS gradient sphere instead of 3D
-    return (
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
-        <div className="w-[200px] h-[200px] rounded-full bg-gradient-to-tr from-[#B600A8]/40 to-[#00D4FF]/40 blur-2xl animate-pulse" />
+  const fallbackUI = (
+    <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+      <div className="relative w-[300px] h-[300px] flex items-center justify-center">
+        <div className="absolute w-[220px] h-[220px] rounded-full bg-gradient-to-tr from-[#B600A8]/50 to-[#7621B0]/50 blur-3xl animate-pulse" />
+        <div className="absolute w-[180px] h-[180px] rounded-full bg-gradient-to-tr from-[#00D4FF]/40 to-[#B600A8]/40 blur-2xl animate-spin" style={{ animationDuration: '15s' }} />
       </div>
-    );
+    </div>
+  );
+
+  if (isMobile || !hasWebGL) {
+    return fallbackUI;
   }
 
   return (
     <div className="absolute inset-0 z-0 pointer-events-none">
-      <Canvas camera={{ position: [0, 0, 6], fov: 45 }} gl={{ alpha: true }}>
-        <ambientLight intensity={1.5} />
-        <directionalLight position={[10, 10, 5]} intensity={2} color="#ffffff" />
-        <directionalLight position={[-10, -10, -5]} intensity={1} color="#B600A8" />
-        <Scene />
-        <Environment preset="city" />
-      </Canvas>
+      <ThreeErrorBoundary fallback={fallbackUI}>
+        <Canvas camera={{ position: [0, 0, 6], fov: 45 }} gl={{ alpha: true }}>
+          <ambientLight intensity={1.5} />
+          <directionalLight position={[10, 10, 5]} intensity={2} color="#ffffff" />
+          <directionalLight position={[-10, -10, -5]} intensity={1} color="#B600A8" />
+          <Scene />
+          <Environment preset="city" />
+        </Canvas>
+      </ThreeErrorBoundary>
     </div>
   );
 }
