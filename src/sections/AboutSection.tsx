@@ -74,9 +74,9 @@ export function AboutSection() {
             <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#B600A8] via-[#7621B0] to-[#BE4C00] flex items-center justify-center text-white font-black text-3xl shadow-lg mb-6">
               N
             </div>
-            <h4 className="text-2xl font-bold text-white mb-2 text-center">NexoraNow Engineering</h4>
+            <h4 className="text-2xl font-bold text-white mb-2 text-center">[Company Name]</h4>
             <p className="text-gray-400 text-sm text-center max-w-xs leading-relaxed mb-6">
-              Crafting autonomous AI agents, enterprise SaaS, and cutting-edge software solutions worldwide.
+              [Short description about your company, services, mission, and target audience goes here.]
             </p>
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold uppercase tracking-wider">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Available for Projects
