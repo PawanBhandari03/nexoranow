@@ -26,14 +26,14 @@ export function ContactSection() {
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#B600A8]/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/5 rounded-full blur-[100px] pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           
           {/* Contact Info */}
           <div>
-            <h2 className="text-sm font-semibold tracking-wide text-[#B600A8] uppercase mb-2">Get In Touch</h2>
+            <h2 className="text-sm font-semibold tracking-wide text-white/70 uppercase mb-2">Get In Touch</h2>
             <h3 className="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
               Let's Build Something <br />
               <span className="hero-heading font-black">Extraordinary</span>
@@ -45,11 +45,11 @@ export function ContactSection() {
             <div className="space-y-6">
               <div className="flex items-center">
                 <div className="w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center mr-4">
-                  <Mail className="text-[#B600A8]" size={20} />
+                  <Mail className="text-white" size={20} />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium">Email Us</p>
-                  <a href="mailto:hello@nexoranow.com" className="text-white hover:text-[#B600A8] font-semibold transition-colors">
+                  <a href="mailto:hello@nexoranow.com" className="text-white hover:text-white/80 font-semibold transition-colors">
                     hello@nexoranow.com
                   </a>
                 </div>
@@ -57,7 +57,7 @@ export function ContactSection() {
               
               <div className="flex items-center">
                 <div className="w-12 h-12 bg-[#121212] border border-white/10 rounded-full flex items-center justify-center mr-4">
-                  <MapPin className="text-[#B600A8]" size={20} />
+                  <MapPin className="text-white" size={20} />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium">Location</p>
@@ -87,7 +87,7 @@ export function ContactSection() {
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#B600A8] transition-colors"
+                        className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-white transition-colors"
                         placeholder="John Doe"
                       />
                     </div>
@@ -99,7 +99,7 @@ export function ContactSection() {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#B600A8] transition-colors"
+                        className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-white transition-colors"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -111,7 +111,7 @@ export function ContactSection() {
                       id="service"
                       value={formData.service}
                       onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#B600A8] transition-colors"
+                      className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-white transition-colors"
                     >
                       <option>Full-Stack Web Development</option>
                       <option>AI Solutions & Agents</option>
@@ -128,7 +128,7 @@ export function ContactSection() {
                       required
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#B600A8] transition-colors resize-none"
+                      className="w-full bg-[#1A1A1A] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-white transition-colors resize-none"
                       placeholder="Tell us about your goals and requirements..."
                     ></textarea>
                   </div>
@@ -136,7 +136,7 @@ export function ContactSection() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-[#B600A8] hover:bg-[#a00094] text-white font-bold py-4 rounded-xl flex items-center justify-center transition-all group cursor-pointer shadow-lg"
+                    className="w-full bg-white hover:bg-neutral-200 text-black font-bold py-4 rounded-xl flex items-center justify-center transition-all group cursor-pointer shadow-lg"
                   >
                     {isSubmitting ? (
                       <span className="animate-pulse">Sending Message...</span>
@@ -154,12 +154,12 @@ export function ContactSection() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="py-12 text-center flex flex-col items-center"
                 >
-                  <div className="w-16 h-16 bg-[#B600A8] rounded-full flex items-center justify-center mb-4 text-white shadow-xl">
+                  <div className="w-16 h-16 bg-white text-black rounded-full flex items-center justify-center mb-4 shadow-xl">
                     <CheckCircle size={36} />
                   </div>
                   <h4 className="text-2xl font-bold text-white mb-2">Message Delivered!</h4>
                   <p className="text-gray-300 text-sm max-w-sm mb-6 leading-relaxed">
-                    Thank you <span className="text-white font-bold">{formData.name}</span>. We've received your request and will reply to <span className="text-[#B600A8] font-semibold">{formData.email}</span> within 24 hours.
+                    Thank you <span className="text-white font-bold">{formData.name}</span>. We've received your request and will reply to <span className="text-white font-semibold">{formData.email}</span> within 24 hours.
                   </p>
                   <button
                     onClick={() => {

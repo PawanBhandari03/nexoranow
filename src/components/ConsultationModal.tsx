@@ -76,7 +76,7 @@ export function ConsultationModal({ isOpen, onClose, initialPlan }: Consultation
                     type="text" 
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#B600A8] transition-colors"
+                    className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
                     placeholder="John Doe"
                   />
                 </div>
@@ -87,7 +87,7 @@ export function ConsultationModal({ isOpen, onClose, initialPlan }: Consultation
                     type="email" 
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#B600A8] transition-colors"
+                    className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
                     placeholder="john@company.com"
                   />
                 </div>
@@ -99,7 +99,7 @@ export function ConsultationModal({ isOpen, onClose, initialPlan }: Consultation
                   type="text" 
                   value={formData.company}
                   onChange={(e) => setFormData({...formData, company: e.target.value})}
-                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#B600A8] transition-colors"
+                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
                   placeholder="Acme Corp"
                 />
               </div>
@@ -111,18 +111,14 @@ export function ConsultationModal({ isOpen, onClose, initialPlan }: Consultation
                   rows={4}
                   value={formData.projectDetails}
                   onChange={(e) => setFormData({...formData, projectDetails: e.target.value})}
-                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#B600A8] transition-colors resize-none"
+                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white transition-colors resize-none"
                   placeholder="Tell us a bit about your project..."
                 />
               </div>
 
               <button 
                 type="submit"
-                className="mt-4 w-full rounded-xl py-4 font-semibold uppercase tracking-widest text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
-                style={{
-                  background: 'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
-                  boxShadow: '0px 4px 4px rgba(181, 1, 167, 0.25), 4px 4px 12px #7721B1 inset',
-                }}
+                className="mt-4 w-full bg-white hover:bg-neutral-200 text-black font-bold py-4 rounded-xl flex items-center justify-center transition-all cursor-pointer shadow-lg uppercase tracking-widest text-sm"
               >
                 Submit Request
               </button>

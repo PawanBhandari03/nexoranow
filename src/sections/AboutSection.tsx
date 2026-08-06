@@ -19,7 +19,7 @@ export function AboutSection() {
         {/* Left Column */}
         <div className="flex flex-col">
           <FadeIn delay={0} y={40}>
-            <span className="text-[#B600A8] font-bold text-xs sm:text-sm uppercase tracking-widest block mb-2">
+            <span className="text-white/70 font-bold text-xs sm:text-sm uppercase tracking-widest block mb-2">
               AI & Software Engineering Agency
             </span>
             <h2 className="hero-heading font-black uppercase text-[clamp(3rem,8vw,100px)] mb-2 leading-none">
@@ -45,7 +45,7 @@ export function AboutSection() {
               const Icon = feat.icon;
               return (
                 <FadeIn key={feat.title} delay={0.3 + (i * 0.1)} y={20} className="flex items-start gap-5">
-                  <div className="mt-1 flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 shrink-0 text-[#B600A8]">
+                  <div className="mt-1 flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 shrink-0 text-white">
                     <Icon size={24} strokeWidth={1.5} />
                   </div>
                   <div>
@@ -64,14 +64,14 @@ export function AboutSection() {
 
         {/* Right Column */}
         <div className="relative w-full h-full min-h-[400px] lg:min-h-[600px] flex items-center justify-center mt-10 lg:mt-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[#B600A8]/20 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/5 rounded-full blur-[120px] pointer-events-none" />
           
           <motion.div 
             animate={{ y: [0, -15, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             className="relative w-full max-w-[450px] aspect-[4/5] rounded-[40px] border border-white/10 bg-white/5 backdrop-blur-xl flex flex-col items-center justify-center overflow-hidden shadow-2xl p-8"
           >
-            <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#B600A8] via-[#7621B0] to-[#BE4C00] flex items-center justify-center text-white font-black text-3xl shadow-lg mb-6">
+            <div className="w-20 h-20 rounded-full bg-white text-black flex items-center justify-center font-black text-3xl shadow-lg mb-6">
               N
             </div>
             <h4 className="text-2xl font-bold text-white mb-2 text-center">NexoraNow Engineering</h4>

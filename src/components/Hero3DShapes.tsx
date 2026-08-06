@@ -54,12 +54,12 @@ function Scene() {
   });
 
   const glassMaterial = new THREE.MeshPhysicalMaterial({
-    color: '#B600A8', // Magenta base
-    emissive: '#7621B0', // Purple emissive
-    emissiveIntensity: 0.2,
+    color: '#FFFFFF', // Pure white base
+    emissive: '#222222', // Subtle silver emissive
+    emissiveIntensity: 0.1,
     roughness: 0.1,
-    metalness: 0.1,
-    transmission: 0.9, // glass-like
+    metalness: 0.8,
+    transmission: 0.8, // glass-like
     thickness: 0.5,
     ior: 1.5,
     clearcoat: 1,
@@ -67,12 +67,12 @@ function Scene() {
   });
 
   const blueGlassMaterial = new THREE.MeshPhysicalMaterial({
-    color: '#00D4FF', // Cyan accent
-    emissive: '#0055FF', 
+    color: '#E2E8F0', // Platinum/silver accent
+    emissive: '#111111', 
     emissiveIntensity: 0.1,
-    roughness: 0.1,
-    metalness: 0.2,
-    transmission: 0.9,
+    roughness: 0.15,
+    metalness: 0.7,
+    transmission: 0.8,
     thickness: 0.5,
     ior: 1.5,
   });
@@ -131,8 +131,8 @@ export function Hero3DShapes() {
   const fallbackUI = (
     <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
       <div className="relative w-[300px] h-[300px] flex items-center justify-center">
-        <div className="absolute w-[220px] h-[220px] rounded-full bg-gradient-to-tr from-[#B600A8]/50 to-[#7621B0]/50 blur-3xl animate-pulse" />
-        <div className="absolute w-[180px] h-[180px] rounded-full bg-gradient-to-tr from-[#00D4FF]/40 to-[#B600A8]/40 blur-2xl animate-spin" style={{ animationDuration: '15s' }} />
+        <div className="absolute w-[220px] h-[220px] rounded-full bg-gradient-to-tr from-white/20 to-white/5 blur-3xl animate-pulse" />
+        <div className="absolute w-[180px] h-[180px] rounded-full bg-gradient-to-tr from-white/30 to-white/10 blur-2xl animate-spin" style={{ animationDuration: '15s' }} />
       </div>
     </div>
   );
@@ -147,7 +147,7 @@ export function Hero3DShapes() {
         <Canvas camera={{ position: [0, 0, 6], fov: 45 }} gl={{ alpha: true }}>
           <ambientLight intensity={1.5} />
           <directionalLight position={[10, 10, 5]} intensity={2} color="#ffffff" />
-          <directionalLight position={[-10, -10, -5]} intensity={1} color="#B600A8" />
+          <directionalLight position={[-10, -10, -5]} intensity={1} color="#ffffff" />
           <Scene />
           <Environment preset="city" />
         </Canvas>

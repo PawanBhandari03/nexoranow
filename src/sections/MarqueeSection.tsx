@@ -89,7 +89,7 @@ export function MarqueeSection() {
           {ROW1_ITEMS.map((service, i) => (
             <div 
               key={`row1-${i}`}
-              className="group relative w-[420px] h-[270px] bg-[#0C0C0C] border border-white/12 rounded-[28px] overflow-hidden shrink-0 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:border-white/30 hover:shadow-[0_0_25px_rgba(182,0,168,0.2)] flex flex-col p-6 sm:p-8"
+              className="group relative w-[420px] h-[270px] bg-[#0C0C0C] border border-white/12 rounded-[28px] overflow-hidden shrink-0 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:border-white/30 hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] flex flex-col p-6 sm:p-8"
             >
               {/* Oversized Background Text */}
               <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none mix-blend-screen">
@@ -131,7 +131,7 @@ export function MarqueeSection() {
           {ROW2_ITEMS.map((service, i) => (
             <div 
               key={`row2-${i}`}
-              className="group relative w-[420px] h-[270px] bg-[#0C0C0C] border border-white/12 rounded-[28px] overflow-hidden shrink-0 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:border-white/30 hover:shadow-[0_0_25px_rgba(182,0,168,0.2)] flex flex-col p-6 sm:p-8"
+              className="group relative w-[420px] h-[270px] bg-[#0C0C0C] border border-white/12 rounded-[28px] overflow-hidden shrink-0 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:border-white/30 hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] flex flex-col p-6 sm:p-8"
             >
               {/* Oversized Background Text */}
               <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none mix-blend-screen">

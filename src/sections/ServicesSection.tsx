@@ -28,7 +28,7 @@ export function ServicesSection() {
     <section id="services" className="bg-[#FFFFFF] text-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32 relative z-10">
       <FadeIn y={40}>
         <div className="text-center mb-12 sm:mb-16 md:mb-20">
-          <span className="text-[#B600A8] font-bold text-xs sm:text-sm uppercase tracking-widest block mb-2">
+          <span className="text-[#0C0C0C]/60 font-bold text-xs sm:text-sm uppercase tracking-widest block mb-2">
             What We Excel At
           </span>
           <h2 className="font-black uppercase text-center text-[clamp(2.5rem,9vw,140px)] leading-none">

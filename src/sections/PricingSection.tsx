@@ -34,7 +34,7 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
     <section id="pricing" className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-sm font-semibold tracking-wide text-[#B600A8] uppercase">Investment</h2>
+          <h2 className="text-sm font-semibold tracking-wide text-white/70 uppercase">Investment</h2>
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
             Transparent Pricing Options
           </p>
@@ -50,13 +50,13 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`rounded-2xl p-8 relative flex flex-col ${
                 plan.highlighted 
-                  ? 'bg-gradient-to-b from-[#18011F]/60 to-[#101010] border border-[#B600A8] shadow-[0_0_30px_rgba(182,0,168,0.2)]' 
+                  ? 'bg-gradient-to-b from-[#1A1A1A] to-[#0D0D0D] border border-white/60 shadow-[0_0_30px_rgba(255,255,255,0.12)]' 
                   : 'bg-[#121212] border border-white/10'
               }`}
             >
               {plan.highlighted && (
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <span className="bg-[#B600A8] text-white text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wide shadow-md">
+                  <span className="bg-white text-black text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wide shadow-md">
                     Most Popular
                   </span>
                 </div>
@@ -71,7 +71,7 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
               <ul className="space-y-4 mb-8 flex-1">
                 {plan.features.map(feature => (
                   <li key={feature} className="flex items-start">
-                    <Check className="text-[#B600A8] mr-3 shrink-0" size={20} />
+                    <Check className="text-white mr-3 shrink-0" size={20} />
                     <span className="text-gray-300 text-sm">{feature}</span>
                   </li>
                 ))}
@@ -89,7 +89,7 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
                 }}
                 className={`w-full py-3.5 rounded-full font-bold text-xs uppercase tracking-wider text-center transition-transform hover:scale-105 active:scale-95 cursor-pointer ${
                   plan.highlighted
-                    ? 'bg-[#B600A8] hover:bg-[#a00094] text-white shadow-lg'
+                    ? 'bg-white hover:bg-neutral-200 text-black shadow-lg'
                     : 'bg-white/10 hover:bg-white/20 text-white'
                 }`}
               >

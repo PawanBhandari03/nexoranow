@@ -26,22 +26,22 @@ export function HeroSection({ onOpenConsultation }: HeroSectionProps) {
         <motion.div 
           animate={{ 
             scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
+            opacity: [0.1, 0.2, 0.1],
             x: [0, 50, 0],
             y: [0, 30, 0]
           }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-[#B600A8] blur-[120px] mix-blend-screen"
+          className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-white/10 blur-[120px] mix-blend-screen"
         />
         <motion.div 
           animate={{ 
             scale: [1, 1.3, 1],
-            opacity: [0.15, 0.3, 0.15],
+            opacity: [0.05, 0.15, 0.05],
             x: [0, -40, 0],
             y: [0, -50, 0]
           }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-[20%] right-[10%] w-[35vw] h-[35vw] rounded-full bg-[#7621B0] blur-[120px] mix-blend-screen"
+          className="absolute bottom-[20%] right-[10%] w-[35vw] h-[35vw] rounded-full bg-white/5 blur-[120px] mix-blend-screen"
         />
       </div>
 
@@ -54,13 +54,13 @@ export function HeroSection({ onOpenConsultation }: HeroSectionProps) {
       <div className="flex-1 flex flex-col justify-center items-center overflow-hidden px-4 z-20 pointer-events-none relative">
         <FadeIn delay={0.15} y={40} className="w-full flex justify-center mt-4 sm:mt-2 relative">
           {/* Subtle blurred glow behind the text */}
-          <div className="absolute inset-0 flex justify-center items-center pointer-events-none blur-3xl opacity-40">
-            <h1 className="hero-heading font-black uppercase tracking-tighter leading-none whitespace-nowrap text-[8.8vw] sm:text-[9.5vw] md:text-[10vw] lg:text-[10.5vw] text-center w-full max-w-full text-[#B600A8]">
+          <div className="absolute inset-0 flex justify-center items-center pointer-events-none blur-3xl opacity-30">
+            <h1 className="hero-heading font-black uppercase tracking-tighter leading-none whitespace-nowrap text-[8.8vw] sm:text-[9.5vw] md:text-[10vw] lg:text-[10.5vw] text-center w-full max-w-full text-white">
               nexoranow
             </h1>
           </div>
           <h1 
-            className="relative hero-heading font-black uppercase tracking-tighter leading-none whitespace-nowrap text-[8.8vw] sm:text-[9.5vw] md:text-[10vw] lg:text-[10.5vw] text-center w-full max-w-full text-transparent bg-clip-text bg-gradient-to-r from-[#7621B0] via-[#B600A8] to-[#00D4FF] drop-shadow-[0_0_2px_rgba(255,255,255,0.2)] selection:bg-[#B600A8]/30"
+            className="relative hero-heading font-black uppercase tracking-tighter leading-none whitespace-nowrap text-[8.8vw] sm:text-[9.5vw] md:text-[10vw] lg:text-[10.5vw] text-center w-full max-w-full text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E2E8F0] to-[#94A3B8] drop-shadow-[0_0_2px_rgba(255,255,255,0.2)] selection:bg-white/30"
             style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}
           >
             nexoranow
@@ -73,14 +73,14 @@ export function HeroSection({ onOpenConsultation }: HeroSectionProps) {
         <FadeIn delay={0.35} y={20} className="w-full sm:w-auto">
           <div className="group relative transition-all duration-300 w-full sm:w-auto">
             {/* Top Left Bracket */}
-            <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#B600A8] group-hover:w-full group-hover:h-full group-hover:border-[#B600A8]/40 transition-all duration-700 z-20 pointer-events-none" />
+            <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-white group-hover:w-full group-hover:h-full group-hover:border-white/40 transition-all duration-700 z-20 pointer-events-none" />
             
             {/* Bottom Right Bracket */}
-            <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#00D4FF] group-hover:w-full group-hover:h-full group-hover:border-[#00D4FF]/40 transition-all duration-700 z-20 pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-white/60 group-hover:w-full group-hover:h-full group-hover:border-white/40 transition-all duration-700 z-20 pointer-events-none" />
             
             {/* Inner Content */}
             <div className="relative h-full w-full bg-[#0A0A0D]/80 backdrop-blur-md px-8 py-4 sm:px-10 sm:py-5 flex items-center justify-center overflow-hidden max-w-none sm:max-w-[450px] shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-               <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8]/0 via-[#7621B0]/5 to-[#00D4FF]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               <p className="relative z-10 text-[#D7E2EA] font-light uppercase tracking-[0.15em] leading-relaxed text-[11px] sm:text-xs md:text-sm text-center sm:text-left w-full">
                 an ai automation & software development agency driven by crafting striking and unforgettable projects
               </p>
