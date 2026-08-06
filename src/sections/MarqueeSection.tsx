@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { FadeIn } from '../components/FadeIn';
-import { ArrowRight } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 
 const ROW1_SERVICES = [
   { num: '01', title: 'AI Automation', bgText: 'AUTOMATION', desc: 'Automate repetitive workflows with intelligent AI systems.' },
@@ -27,13 +27,26 @@ export function MarqueeSection() {
   const { scrollY } = useScroll();
   
   // Transform scroll position into the desired X offsets
-  // Instead of complex math, we just map scrollY directly to horizontal movement.
-  // When scrollY increases, x moves.
   const xRow1 = useTransform(scrollY, (y) => (y * 0.3) - 1000);
   const xRow2 = useTransform(scrollY, (y) => -(y * 0.3) + 200);
 
+  // Manual scroll offsets
+  const manualOffset = useMotionValue(0);
+  const springOffset = useSpring(manualOffset, { stiffness: 400, damping: 40 });
+
+  const combinedXRow1 = useTransform(() => xRow1.get() + springOffset.get());
+  const combinedXRow2 = useTransform(() => xRow2.get() + springOffset.get());
+
+  const handleNext = () => {
+    manualOffset.set(manualOffset.get() - 444); // card width (420) + gap (24)
+  };
+
+  const handlePrev = () => {
+    manualOffset.set(manualOffset.get() + 444);
+  };
+
   return (
-    <section ref={sectionRef} id="services" className="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-hidden">
+    <section ref={sectionRef} id="services" className="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-24 md:pb-32 overflow-hidden">
       
       {/* Services Header */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center px-5 sm:px-8 mb-16 sm:mb-24 transform-gpu">
@@ -49,13 +62,30 @@ export function MarqueeSection() {
         </FadeIn>
       </div>
 
-      <div className="flex flex-col gap-6">
-        
-        {/* Row 1: Moves Right */}
-        <motion.div 
-          className="flex gap-6 will-change-transform whitespace-nowrap"
-          style={{ x: xRow1 }}
-        >
+      <div className="relative group/slider">
+        {/* Navigation Arrows */}
+        <div className="absolute left-2 right-2 sm:left-6 sm:right-6 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none z-30 opacity-0 group-hover/slider:opacity-100 transition-opacity duration-500">
+          <button 
+            onClick={handlePrev}
+            className="pointer-events-auto w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#0C0C0C]/80 hover:bg-[#1A1A1A] border border-white/10 backdrop-blur-xl flex items-center justify-center text-white transition-all duration-300 hover:scale-110 hover:border-white/30 shadow-[0_0_30px_rgba(0,0,0,0.8)]"
+          >
+            <ChevronLeft size={28} />
+          </button>
+          <button 
+            onClick={handleNext}
+            className="pointer-events-auto w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#0C0C0C]/80 hover:bg-[#1A1A1A] border border-white/10 backdrop-blur-xl flex items-center justify-center text-white transition-all duration-300 hover:scale-110 hover:border-white/30 shadow-[0_0_30px_rgba(0,0,0,0.8)]"
+          >
+            <ChevronRight size={28} />
+          </button>
+        </div>
+
+        <div className="flex flex-col gap-6">
+          
+          {/* Row 1: Moves Right */}
+          <motion.div 
+            className="flex gap-6 will-change-transform whitespace-nowrap"
+            style={{ x: combinedXRow1 }}
+          >
           {ROW1_ITEMS.map((service, i) => (
             <div 
               key={`row1-${i}`}
@@ -96,7 +126,7 @@ export function MarqueeSection() {
         {/* Row 2: Moves Left */}
         <motion.div 
           className="flex gap-6 will-change-transform whitespace-nowrap"
-          style={{ x: xRow2 }}
+          style={{ x: combinedXRow2 }}
         >
           {ROW2_ITEMS.map((service, i) => (
             <div 
@@ -135,6 +165,7 @@ export function MarqueeSection() {
           ))}
         </motion.div>
 
+        </div>
       </div>
     </section>
   );
