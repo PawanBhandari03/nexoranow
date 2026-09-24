@@ -41,7 +41,7 @@ export function Footer({ onOpenConsultation }: FooterProps) {
             <span className="text-[clamp(3.2rem,11vw,10rem)] font-medium leading-[0.9] tracking-[-0.06em] text-bone transition-colors duration-500 group-hover:text-accent">
               Let&apos;s talk
             </span>
-            <span className="flex h-[clamp(3rem,7vw,6.5rem)] w-[clamp(3rem,7vw,6.5rem)] shrink-0 items-center justify-center rounded-full border border-line text-bone transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-ink">
+            <span className="flex h-[clamp(3rem,7vw,6.5rem)] w-[clamp(3rem,7vw,6.5rem)] shrink-0 items-center justify-center rounded-full border border-line text-bone transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent">
               <ArrowUpRight className="h-1/2 w-1/2" strokeWidth={1.5} />
             </span>
           </button>

@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-
 import { ArrowUpRight } from 'lucide-react';
 import { useScrollLock } from '../lib/smoothScroll';
 import { CONTACT_EMAIL } from '../lib/inquiry';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 interface NavbarProps {
   onOpenConsultation?: () => void;
@@ -92,10 +93,11 @@ export function Navbar({ onOpenConsultation }: NavbarProps) {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <button
               type="button"
               onClick={onOpenConsultation}
-              className="group hidden items-center gap-2 rounded-full bg-bone py-2.5 pl-4 pr-3 text-[14px] font-medium text-ink transition-colors duration-300 hover:bg-accent sm:flex"
+              className="group hidden items-center gap-2 rounded-full bg-bone py-2.5 pl-4 pr-3 text-[14px] font-medium text-ink transition-colors duration-300 hover:bg-accent hover:text-on-accent sm:flex"
             >
               <span className="roll">
                 <span>Book a call</span>
@@ -162,7 +164,7 @@ export function Navbar({ onOpenConsultation }: NavbarProps) {
                   setMenuOpen(false);
                   onOpenConsultation?.();
                 }}
-                className="flex items-center justify-between rounded-full bg-accent py-4 pl-6 pr-5 text-[16px] font-medium text-ink"
+                className="flex items-center justify-between rounded-full bg-accent py-4 pl-6 pr-5 text-[16px] font-medium text-on-accent"
               >
                 Book a free consultation <ArrowUpRight size={18} />
               </button>

@@ -85,7 +85,7 @@ export function FaqSection() {
                   </span>
                   <span
                     className={`ml-4 flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-500 ${
-                      isOpen ? 'rotate-45 border-accent bg-accent text-ink' : 'border-line text-bone group-hover:border-bone'
+                      isOpen ? 'rotate-45 border-accent bg-accent text-on-accent' : 'border-line text-bone group-hover:border-bone'
                     }`}
                   >
                     <Plus size={16} />

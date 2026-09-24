@@ -130,7 +130,7 @@ const ProjectCard = ({ index, totalCards, project, onSelectProject }: { index: n
           scale,
           top: `calc(6rem + ${index * 24}px)`
         }}
-        className="sticky flex h-fit w-full origin-top flex-col rounded-[28px] border border-line bg-ink-2 p-3 shadow-[0_-30px_60px_rgba(0,0,0,0.45)] will-change-transform sm:p-5"
+        className="sticky flex h-fit w-full origin-top flex-col rounded-[28px] border border-line bg-ink-2 p-3 [box-shadow:var(--shadow-stack)] will-change-transform sm:p-5"
       >
         {/* Top Row */}
         <div className="flex flex-col justify-between gap-5 px-2 pt-2 pb-5 sm:px-3 sm:pb-6 md:flex-row md:items-end">

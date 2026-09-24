@@ -71,7 +71,7 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
                 <div className="flex h-7 items-center justify-between">
                   <span className={`font-mono text-[12px] ${dark ? 'text-mute' : 'text-ink/50'}`}>0{index + 1}</span>
                   {plan.highlighted && (
-                    <span className="rounded-full bg-accent px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.12em] text-ink">
+                    <span className="rounded-full bg-accent px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.12em] text-on-accent">
                       Most popular
                     </span>
                   )}
@@ -102,7 +102,7 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
                     else scrollToId('contact');
                   }}
                   className={`group flex w-full items-center justify-between rounded-full py-3 pl-6 pr-3 text-[15px] font-medium transition-colors duration-300 ${
-                    dark ? 'border border-line text-bone hover:border-bone hover:bg-bone hover:text-ink' : 'bg-ink text-bone hover:bg-accent hover:text-ink'
+                    dark ? 'border border-line text-bone hover:border-bone hover:bg-bone hover:text-ink' : 'bg-ink text-bone hover:bg-accent hover:text-on-accent'
                   }`}
                 >
                   <span className="roll">

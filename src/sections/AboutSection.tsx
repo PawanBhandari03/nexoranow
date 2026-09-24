@@ -45,7 +45,7 @@ export function AboutSection() {
               <div className="flex items-center justify-between">
                 <div className="flex -space-x-3">
                   <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-ink-2 bg-bone text-[17px] font-semibold text-ink">R</span>
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-ink-2 bg-accent text-[17px] font-semibold text-ink">P</span>
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-ink-2 bg-accent text-[17px] font-semibold text-on-accent">P</span>
                 </div>
                 <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">Founders</span>
               </div>

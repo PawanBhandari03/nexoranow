@@ -41,7 +41,7 @@ export function ContactButton({ label = "Book a Free Consultation", onClick, cla
       onMouseLeave={reset}
       style={{ x: springX, y: springY }}
       whileTap={{ scale: 0.97 }}
-      className={`group relative inline-flex items-center justify-between gap-4 rounded-full bg-accent pl-6 pr-2 py-2 text-ink transition-colors duration-300 hover:bg-bone ${className}`}
+      className={`group relative inline-flex items-center justify-between gap-4 rounded-full bg-accent pl-6 pr-2 py-2 text-on-accent transition-colors duration-300 hover:bg-bone hover:text-ink ${className}`}
     >
       <span className="roll text-[15px] font-medium tracking-[-0.01em] whitespace-nowrap">
         <span>{label}</span>

@@ -32,17 +32,17 @@ function ServiceCard({ service }: { service: Service }) {
       <div className="absolute inset-0 translate-y-full bg-accent transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
 
       <div className="relative flex items-start justify-between">
-        <span className="font-mono text-[12px] text-mute transition-colors duration-500 group-hover:text-ink/60">{service.num}</span>
+        <span className="font-mono text-[12px] text-mute transition-colors duration-500 group-hover:text-on-accent/60">{service.num}</span>
         <span className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-bone transition-all duration-500 group-hover:rotate-45 group-hover:border-ink group-hover:bg-ink">
           <ArrowUpRight size={17} />
         </span>
       </div>
 
       <div className="relative">
-        <h3 className="text-[28px] font-medium leading-none tracking-[-0.035em] text-bone transition-colors duration-500 group-hover:text-ink sm:text-[32px]">
+        <h3 className="text-[28px] font-medium leading-none tracking-[-0.035em] text-bone transition-colors duration-500 group-hover:text-on-accent sm:text-[32px]">
           {service.title}
         </h3>
-        <p className="mt-3 max-w-[90%] text-[14.5px] leading-relaxed text-bone/55 transition-colors duration-500 group-hover:text-ink/75">
+        <p className="mt-3 max-w-[90%] text-[14.5px] leading-relaxed text-bone/55 transition-colors duration-500 group-hover:text-on-accent/75">
           {service.desc}
         </p>
       </div>

@@ -128,7 +128,7 @@ export function ConsultationModal({ isOpen, onClose, initialPlan }: Consultation
                   <button
                     type="submit"
                     disabled={status === 'sending'}
-                    className="group mt-2 flex w-full items-center justify-between rounded-full bg-accent py-2 pl-6 pr-2 text-[15px] font-medium text-ink transition-colors duration-300 hover:bg-bone disabled:opacity-60"
+                    className="group mt-2 flex w-full items-center justify-between rounded-full bg-accent py-2 pl-6 pr-2 text-[15px] font-medium text-on-accent transition-colors duration-300 hover:bg-bone hover:text-ink disabled:opacity-60"
                   >
                     <span className="roll">
                       <span>{status === 'sending' ? 'Sending…' : 'Submit request'}</span>
@@ -147,7 +147,7 @@ export function ConsultationModal({ isOpen, onClose, initialPlan }: Consultation
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="flex min-h-[300px] flex-col justify-between gap-10"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-ink">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-on-accent">
                   <Check size={22} />
                 </span>
                 <div>

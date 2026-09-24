@@ -96,7 +96,7 @@ export function ProjectModal({ project, onClose, onBookCall }: ProjectModalProps
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group inline-flex items-center gap-3 rounded-full bg-bone py-2 pl-5 pr-2 text-[14px] font-medium text-ink transition-colors duration-300 hover:bg-accent"
+                        className="group inline-flex items-center gap-3 rounded-full bg-bone py-2 pl-5 pr-2 text-[14px] font-medium text-ink transition-colors duration-300 hover:bg-accent hover:text-on-accent"
                       >
                         Visit {project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
                         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-bone">
