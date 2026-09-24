@@ -1,4 +1,7 @@
 import type { ReactNode } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+import { scrollToId } from '../lib/smoothScroll';
 
 interface ContactButtonProps {
   label?: string | ReactNode;
@@ -7,34 +10,47 @@ interface ContactButtonProps {
 }
 
 export function ContactButton({ label = "Book a Free Consultation", onClick, className = "" }: ContactButtonProps) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });
+  const springY = useSpring(y, { stiffness: 220, damping: 18, mass: 0.4 });
+
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (onClick) {
-      onClick();
-    } else {
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    if (onClick) onClick();
+    else scrollToId('contact');
+  };
+
+  // Subtle magnetic pull toward the cursor
+  const handleMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    x.set((e.clientX - rect.left - rect.width / 2) * 0.18);
+    y.set((e.clientY - rect.top - rect.height / 2) * 0.3);
+  };
+
+  const reset = () => {
+    x.set(0);
+    y.set(0);
   };
 
   return (
-    <button
+    <motion.button
+      type="button"
       onClick={handleClick}
-      className={`group relative transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer ${className}`}
+      onMouseMove={handleMove}
+      onMouseLeave={reset}
+      style={{ x: springX, y: springY }}
+      whileTap={{ scale: 0.97 }}
+      className={`group relative inline-flex items-center justify-between gap-4 rounded-full bg-accent pl-6 pr-2 py-2 text-ink transition-colors duration-300 hover:bg-bone ${className}`}
     >
-      {/* Top Left Bracket */}
-      <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#B600A8] group-hover:w-full group-hover:h-full group-hover:border-[#B600A8]/50 transition-all duration-500 z-20 pointer-events-none" />
-      
-      {/* Bottom Right Bracket */}
-      <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#00D4FF] group-hover:w-full group-hover:h-full group-hover:border-[#00D4FF]/50 transition-all duration-500 z-20 pointer-events-none" />
-
-      {/* Inner Button Content */}
-      <div className="relative h-full w-full bg-[#0A0A0D]/80 backdrop-blur-md px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 flex items-center justify-center overflow-hidden transition-colors duration-500 group-hover:bg-[#0A0A0D]/60 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8]/0 via-[#7621B0]/10 to-[#00D4FF]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <span className="relative z-10 text-xs sm:text-sm md:text-base font-bold uppercase tracking-[0.15em] text-white whitespace-nowrap">{label}</span>
-      </div>
-    </button>
+      <span className="roll text-[15px] font-medium tracking-[-0.01em] whitespace-nowrap">
+        <span>{label}</span>
+        <span>{label}</span>
+      </span>
+      <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ink text-bone">
+        <ArrowUpRight size={18} className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-5 group-hover:-translate-y-5" />
+        <ArrowUpRight size={18} className="absolute -translate-x-5 translate-y-5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0 group-hover:translate-y-0" />
+      </span>
+    </motion.button>
   );
 }

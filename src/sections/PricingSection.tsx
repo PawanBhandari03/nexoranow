@@ -1,5 +1,9 @@
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import { FadeIn } from '../components/FadeIn';
+import { RevealText } from '../components/RevealText';
+import { SectionLabel } from '../components/SectionLabel';
+import { scrollToId } from '../lib/smoothScroll';
 
 const PLANS = [
   {
@@ -31,90 +35,86 @@ interface PricingSectionProps {
 
 export function PricingSection({ onSelectPlan }: PricingSectionProps) {
   return (
-    <section id="pricing" className="py-24 relative bg-[#0C0C0C]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-xs sm:text-sm font-bold tracking-widest text-[#00D4FF] uppercase">Investment</h2>
-          <p className="mt-2 text-3xl leading-8 font-black tracking-tight text-white sm:text-4xl uppercase">
-            Transparent Pricing Options
-          </p>
+    <section id="pricing" className="border-t border-line px-5 py-28 sm:px-8 sm:py-36">
+      <div className="mx-auto max-w-[1400px]">
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <FadeIn y={10}>
+              <SectionLabel index="05">Pricing</SectionLabel>
+            </FadeIn>
+            <RevealText
+              text={'Clear pricing,\n*no surprises.*'}
+              className="mt-8 text-[clamp(2.2rem,4.6vw,4.5rem)] font-medium leading-[1] tracking-[-0.04em] text-bone"
+            />
+          </div>
+          <FadeIn delay={0.2}>
+            <p className="max-w-[360px] text-[16px] leading-relaxed text-bone/65 md:text-right">
+              All plans start with a free consultation — final pricing is customized based on your specific requirements and project scope.
+            </p>
+          </FadeIn>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto mb-16">
-          {PLANS.map((plan, index) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`group relative bg-[#0A0A0D] p-8 rounded-[24px] flex flex-col transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(182,0,168,0.15)] border ${
-                plan.highlighted 
-                  ? 'border-[#B600A8]/80 shadow-[0_0_30px_rgba(182,0,168,0.2)] z-10' 
-                  : 'border-white/10 hover:border-[#B600A8]/50 z-0'
-              }`}
-            >
-              {plan.highlighted && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-                  <span className="bg-[#B600A8] text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
-                    Most Popular
-                  </span>
-                </div>
-              )}
-              
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 uppercase tracking-wide">{plan.name}</h3>
-              <p className="text-[#D7E2EA]/70 text-sm mb-6 min-h-[40px] leading-relaxed font-light">{plan.description}</p>
-              
-              <div className="mb-8">
-                <span className="block text-[#00D4FF] text-[10px] uppercase tracking-widest font-semibold mb-1">Starting from</span>
-                <span className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#B600A8] via-[#7621B0] to-[#00D4FF] block tracking-tight">
-                  {plan.price}
-                </span>
-                <span className="block text-[#D7E2EA]/50 text-xs italic mt-2 font-light">Final quote depends on scope</span>
-              </div>
-              
-              <ul className="space-y-4 mb-10 flex-1">
-                {plan.features.map(feature => (
-                  <li key={feature} className="flex items-start">
-                    <Check className="text-[#00D4FF] mr-3 shrink-0" size={18} />
-                    <span className="text-[#D7E2EA]/90 text-sm font-light">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              
-              <button
-                type="button"
-                onClick={() => {
-                  if (onSelectPlan) {
-                    onSelectPlan(`${plan.name} Plan`);
-                  } else {
-                    const contact = document.getElementById('contact');
-                    if (contact) contact.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className={`w-full rounded-full py-3 flex items-center justify-center transition-all duration-300 border cursor-pointer ${
-                  plan.highlighted 
-                    ? 'bg-[#B600A8]/20 border-[#B600A8] hover:bg-[#B600A8]/40 text-white shadow-[0_0_15px_rgba(182,0,168,0.3)]'
-                    : 'bg-transparent border-white/20 hover:border-white/50 hover:bg-white/5 text-white'
+        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
+          {PLANS.map((plan, index) => {
+            const dark = !plan.highlighted;
+            return (
+              <motion.div
+                key={plan.name}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+                transition={{ duration: 0.9, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className={`relative flex flex-col rounded-[28px] p-7 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5 sm:p-8 ${
+                  dark ? 'border border-line bg-ink-2 text-bone' : 'bg-bone text-ink'
                 }`}
               >
-                <span className="text-xs font-bold uppercase tracking-widest">Get Started</span>
-              </button>
-            </motion.div>
-          ))}
-        </div>
+                <div className="flex h-7 items-center justify-between">
+                  <span className={`font-mono text-[12px] ${dark ? 'text-mute' : 'text-ink/50'}`}>0{index + 1}</span>
+                  {plan.highlighted && (
+                    <span className="rounded-full bg-accent px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.12em] text-ink">
+                      Most popular
+                    </span>
+                  )}
+                </div>
 
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center"
-        >
-          <p className="text-[#D7E2EA]/60 text-sm max-w-2xl mx-auto font-light leading-relaxed">
-            All plans start with a free consultation — final pricing is customized based on your specific requirements and project scope.
-          </p>
-        </motion.div>
+                <h3 className="mt-10 text-[30px] font-medium leading-none tracking-[-0.035em]">{plan.name}</h3>
+                <p className={`mt-3 min-h-[48px] text-[14.5px] leading-relaxed ${dark ? 'text-bone/55' : 'text-ink/65'}`}>{plan.description}</p>
+
+                <div className={`mt-8 border-t pt-6 ${dark ? 'border-line' : 'border-ink/15'}`}>
+                  <span className={`block font-mono text-[10.5px] uppercase tracking-[0.14em] ${dark ? 'text-mute' : 'text-ink/50'}`}>Starting from</span>
+                  <span className="mt-2 block text-[clamp(1.6rem,2.3vw,2.1rem)] font-medium tracking-[-0.04em]">{plan.price}</span>
+                  <span className={`serif-accent mt-1 block text-[16px] ${dark ? 'text-mute' : 'text-ink/55'}`}>Final quote depends on scope</span>
+                </div>
+
+                <ul className="mt-8 mb-10 flex-1 space-y-3">
+                  {plan.features.map(feature => (
+                    <li key={feature} className="flex items-center gap-3 text-[15px]">
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                      <span className={dark ? 'text-bone/85' : 'text-ink/85'}>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onSelectPlan) onSelectPlan(`${plan.name} Plan`);
+                    else scrollToId('contact');
+                  }}
+                  className={`group flex w-full items-center justify-between rounded-full py-3 pl-6 pr-3 text-[15px] font-medium transition-colors duration-300 ${
+                    dark ? 'border border-line text-bone hover:border-bone hover:bg-bone hover:text-ink' : 'bg-ink text-bone hover:bg-accent hover:text-ink'
+                  }`}
+                >
+                  <span className="roll">
+                    <span>Get started</span>
+                    <span>Get started</span>
+                  </span>
+                  <ArrowUpRight size={18} className="transition-transform duration-500 group-hover:rotate-45" />
+                </button>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { FadeIn } from '../components/FadeIn';
+import { RevealText } from '../components/RevealText';
+import { SectionLabel } from '../components/SectionLabel';
+import { CONTACT_EMAIL } from '../lib/inquiry';
 
 const FAQS = [
   {
@@ -41,57 +45,71 @@ export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-24 bg-[#0C0C0C]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 relative">
-          {/* Soft glow behind heading */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-24 bg-gradient-to-r from-[#B600A8]/20 to-[#00D4FF]/20 blur-[50px] pointer-events-none" />
-          
-          <h2 className="text-xs sm:text-sm font-bold tracking-widest text-[#00D4FF] uppercase relative z-10">Got Questions?</h2>
-          <p className="mt-2 text-3xl leading-8 font-black tracking-tight text-white sm:text-4xl uppercase relative z-10">
-            Frequently Asked Questions
-          </p>
+    <section id="faq" className="border-t border-line px-5 py-28 sm:px-8 sm:py-36">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-14 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <div className="lg:sticky lg:top-28">
+            <FadeIn y={10}>
+              <SectionLabel index="06">FAQ</SectionLabel>
+            </FadeIn>
+            <RevealText
+              text={'Questions,\n*answered.*'}
+              className="mt-8 text-[clamp(2.2rem,4.6vw,4.5rem)] font-medium leading-[1] tracking-[-0.04em] text-bone"
+            />
+            <FadeIn delay={0.2}>
+              <p className="mt-8 max-w-[320px] text-[15px] leading-relaxed text-bone/60">
+                Something we didn&apos;t cover? Write to us at{' '}
+                <a href={`mailto:${CONTACT_EMAIL}`} className="link-line text-bone">{CONTACT_EMAIL}</a>{' '}
+                and one of us will reply personally.
+              </p>
+            </FadeIn>
+          </div>
         </div>
 
-        <div className="space-y-4">
-          {FAQS.map((faq, index) => (
-            <div 
-              key={index} 
-              className="group relative p-[1px] rounded-[16px] overflow-hidden transition-all duration-300"
-            >
-              {/* Gradient border on hover/focus */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8] via-[#7621B0] to-[#00D4FF] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              <div className={`absolute inset-0 transition-opacity duration-500 pointer-events-none ${openIndex === index ? 'bg-gradient-to-r from-[#B600A8] via-[#7621B0] to-[#00D4FF] opacity-100' : 'opacity-0'}`} />
-              
-              <div className="relative bg-[#0A0A0D]/95 backdrop-blur-xl rounded-[16px] overflow-hidden h-full">
+        <div className="border-t border-line lg:col-span-8">
+          {FAQS.map((faq, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <FadeIn key={faq.question} delay={index * 0.04} y={16} className="border-b border-line">
                 <button
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                  className="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none"
+                  type="button"
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  aria-expanded={isOpen}
+                  className="group grid w-full grid-cols-[2.75rem_1fr_auto] items-center gap-2 py-6 text-left sm:grid-cols-[4rem_1fr_auto]"
                 >
-                  <span className="font-semibold text-white tracking-wide text-sm md:text-base">{faq.question}</span>
-                  <ChevronDown 
-                    className={`text-[#00D4FF] transition-transform duration-300 shrink-0 ml-4 ${openIndex === index ? 'rotate-180' : ''}`}
-                    size={20} 
-                  />
+                  <span className={`font-mono text-[12px] transition-colors duration-300 ${isOpen ? 'text-accent' : 'text-mute'}`}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className={`text-[17px] font-medium tracking-[-0.015em] transition-colors duration-300 sm:text-[20px] ${isOpen ? 'text-bone' : 'text-bone/75 group-hover:text-bone'}`}>
+                    {faq.question}
+                  </span>
+                  <span
+                    className={`ml-4 flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-500 ${
+                      isOpen ? 'rotate-45 border-accent bg-accent text-ink' : 'border-line text-bone group-hover:border-bone'
+                    }`}
+                  >
+                    <Plus size={16} />
+                  </span>
                 </button>
-                
-                <AnimatePresence>
-                  {openIndex === index && (
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
                     >
-                      <div className="px-6 pb-5 text-[#D7E2EA]/70 text-sm leading-relaxed border-t border-white/5 pt-4 font-light">
+                      <p className="max-w-[640px] pb-7 pl-[3.25rem] pr-12 text-[15.5px] leading-relaxed text-bone/60 sm:pl-[4.5rem]">
                         {faq.answer}
-                      </div>
+                      </p>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
-            </div>
-          ))}
+              </FadeIn>
+            );
+          })}
         </div>
       </div>
     </section>

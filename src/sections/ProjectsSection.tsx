@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { LiveProjectButton } from '../components/LiveProjectButton';
 import { FadeIn } from '../components/FadeIn';
+import { SectionLabel } from '../components/SectionLabel';
 import type { ProjectData } from '../components/ProjectModal';
 
 import fintaxHero from '../assets/fintaxvers/hero.png';
@@ -64,99 +65,102 @@ interface ProjectsSectionProps {
 
 export function ProjectsSection({ onSelectProject }: ProjectsSectionProps) {
   return (
-    <section id="projects" className="bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 relative z-20 px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-32">
-      
-      <FadeIn y={40}>
-        <h2 className="hero-heading font-black uppercase text-center text-[clamp(3rem,12vw,160px)] leading-none mb-16 sm:mb-20 md:mb-28">
-          Projects
-        </h2>
-      </FadeIn>
+    <section id="projects" className="relative z-20 border-t border-line bg-ink px-5 pt-28 pb-24 sm:px-8 sm:pt-36 sm:pb-32">
+      <div className="mx-auto max-w-[1400px]">
+        <FadeIn y={10}>
+          <SectionLabel index="03">Selected work</SectionLabel>
+        </FadeIn>
 
-      <div className="max-w-7xl mx-auto flex flex-col mt-10">
+        <div className="mt-6 flex items-start gap-3 overflow-hidden sm:gap-5">
+          <motion.h2
+            initial={{ y: '100%' }}
+            whileInView={{ y: '0%' }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[clamp(3.6rem,14vw,14rem)] font-medium leading-[0.9] tracking-[-0.06em] text-bone"
+          >
+            Projects
+          </motion.h2>
+          <span className="mt-[1.2vw] font-mono text-[clamp(0.8rem,1.4vw,1.2rem)] text-accent">({String(PROJECTS.length).padStart(2, '0')})</span>
+        </div>
+      </div>
+
+      <div className="mx-auto mt-12 flex max-w-[1400px] flex-col sm:mt-16">
         {PROJECTS.map((proj, i) => (
-          <ProjectCard 
-            key={proj.num} 
-            index={i} 
-            totalCards={PROJECTS.length} 
-            project={proj} 
+          <ProjectCard
+            key={proj.num}
+            index={i}
+            totalCards={PROJECTS.length}
+            project={proj}
             onSelectProject={onSelectProject}
           />
         ))}
       </div>
-
     </section>
   );
 }
 
+const ProjectImage = ({ src, alt, className = '', style, onClick }: { src: string; alt: string; className?: string; style?: React.CSSProperties; onClick?: () => void }) => (
+  <button type="button" onClick={onClick} className={`group/img relative block w-full overflow-hidden rounded-[16px] bg-ink-3 ${className}`} style={style} aria-label={`Open ${alt}`}>
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/img:scale-[1.04]"
+    />
+  </button>
+);
+
 const ProjectCard = ({ index, totalCards, project, onSelectProject }: { index: number, totalCards: number, project: ProjectData, onSelectProject?: (p: ProjectData) => void }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
     offset: ['start start', 'end start']
   });
 
-  const targetScale = 1 - (totalCards - 1 - index) * 0.03;
+  const targetScale = 1 - (totalCards - 1 - index) * 0.04;
   const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale]);
+  const open = () => onSelectProject && onSelectProject(project);
 
   return (
-    <div ref={wrapperRef} className="h-[85vh] sm:h-[100vh] flex justify-center w-full relative">
-      <motion.div 
-        style={{ 
+    <div ref={wrapperRef} className="relative flex h-[85vh] w-full justify-center sm:h-[100vh]">
+      <motion.div
+        style={{
           scale,
-          top: `calc(6rem + ${index * 28}px)`
+          top: `calc(6rem + ${index * 24}px)`
         }}
-        className="sticky w-full max-w-6xl flex flex-col bg-[#0C0C0C] border-2 border-[#D7E2EA] rounded-[40px] sm:rounded-[50px] md:rounded-[60px] p-4 sm:p-6 md:p-8 h-fit will-change-transform shadow-2xl"
+        className="sticky flex h-fit w-full origin-top flex-col rounded-[28px] border border-line bg-ink-2 p-3 shadow-[0_-30px_60px_rgba(0,0,0,0.45)] will-change-transform sm:p-5"
       >
         {/* Top Row */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 sm:mb-8 gap-4 md:gap-0">
-          <div className="flex items-center gap-4 sm:gap-6 lg:gap-10">
-            <span className="font-black text-[#D7E2EA] text-[clamp(3rem,10vw,140px)] leading-none">
-              {project.num}
+        <div className="flex flex-col justify-between gap-5 px-2 pt-2 pb-5 sm:px-3 sm:pb-6 md:flex-row md:items-end">
+          <div className="flex items-end gap-5 sm:gap-8">
+            <span className="font-mono text-[12px] text-mute">
+              <span className="text-accent">{project.num}</span> / {String(totalCards).padStart(2, '0')}
             </span>
-            <div className="flex flex-col">
-              <span className="uppercase text-[#D7E2EA]/60 font-medium tracking-wider text-xs sm:text-sm mb-1">
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">
                 {project.category}
               </span>
-              <h3 className="uppercase text-[#D7E2EA] font-medium text-[clamp(1.2rem,3vw,2.5rem)] leading-none">
+              <h3 className="text-[clamp(1.6rem,3.4vw,3rem)] font-medium leading-none tracking-[-0.04em] text-bone">
                 {project.name}
               </h3>
             </div>
           </div>
-          <LiveProjectButton 
-            label="Live Project"
-            onClick={() => onSelectProject && onSelectProject(project)}
-          />
+          <LiveProjectButton label="View project" onClick={open} />
         </div>
 
         {/* Bottom Row - Grid */}
-        <div className="flex flex-col md:flex-row gap-4 h-full">
+        <div className="flex flex-col gap-3 md:flex-row">
           {/* Left Column (40%) */}
-          <div className="w-full md:w-[40%] flex flex-col gap-4">
-            <img 
-              src={project.imgs[0]} 
-              alt={`${project.name} 1`}
-              className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px] cursor-pointer hover:opacity-90 transition-opacity"
-              style={{ height: 'clamp(130px, 16vw, 230px)' }}
-              onClick={() => onSelectProject && onSelectProject(project)}
-            />
-            <img 
-              src={project.imgs[1]} 
-              alt={`${project.name} 2`}
-              className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px] flex-1 cursor-pointer hover:opacity-90 transition-opacity"
-              style={{ minHeight: 'clamp(160px, 22vw, 340px)' }}
-              onClick={() => onSelectProject && onSelectProject(project)}
-            />
+          <div className="flex w-full flex-col gap-3 md:w-[40%]">
+            <ProjectImage src={project.imgs[0]} alt={`${project.name} 1`} onClick={open} style={{ height: 'clamp(130px, 16vw, 230px)' }} />
+            <ProjectImage src={project.imgs[1]} alt={`${project.name} 2`} onClick={open} className="hidden flex-1 sm:block" style={{ minHeight: 'clamp(160px, 20vw, 300px)' }} />
           </div>
 
           {/* Right Column (60%) */}
-          <div className="w-full md:w-[60%] flex">
-            <img 
-              src={project.imgs[2]} 
-              alt={`${project.name} 3`}
-              className="w-full h-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px] min-h-[300px] md:min-h-0 cursor-pointer hover:opacity-90 transition-opacity"
-              onClick={() => onSelectProject && onSelectProject(project)}
-            />
+          <div className="flex w-full md:w-[60%]">
+            <ProjectImage src={project.imgs[2]} alt={`${project.name} 3`} onClick={open} className="min-h-[220px] sm:min-h-[300px] md:min-h-0" />
           </div>
         </div>
       </motion.div>

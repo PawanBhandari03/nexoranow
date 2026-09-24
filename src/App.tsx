@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { MotionConfig } from 'framer-motion';
+import { useSmoothScroll } from './lib/smoothScroll';
 import { Navbar } from './layout/Navbar';
 import { Footer } from './layout/Footer';
 import { HeroSection } from './sections/HeroSection';
@@ -19,6 +21,8 @@ function App() {
   const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined);
   const [activeProject, setActiveProject] = useState<ProjectData | null>(null);
 
+  useSmoothScroll();
+
   const handleOpenConsultation = (plan?: string) => {
     setSelectedPlan(plan);
     setIsConsultationOpen(true);
@@ -38,37 +42,42 @@ function App() {
   };
 
   return (
-    <div className="bg-[#0C0C0C] font-kanit overflow-x-clip min-h-screen">
-      <Navbar onOpenConsultation={() => handleOpenConsultation()} />
-      
-      <main className="flex flex-col">
-        <HeroSection onOpenConsultation={() => handleOpenConsultation()} />
-        <AboutSection />
-        <MarqueeSection />
-        <ProjectsSection onSelectProject={handleSelectProject} />
-        
-        <div className="bg-[#0C0C0C] relative z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
-          <TestimonialsSection />
-          <PricingSection onSelectPlan={(plan) => handleOpenConsultation(plan)} />
-          <FaqSection />
-          <ContactSection />
-        </div>
-      </main>
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen overflow-x-clip bg-ink font-sans text-bone">
+        <div className="grain" aria-hidden />
+        <Navbar onOpenConsultation={() => handleOpenConsultation()} />
 
-      <Footer />
+        <main className="flex flex-col">
+          <HeroSection onOpenConsultation={() => handleOpenConsultation()} />
+          <AboutSection />
+          <MarqueeSection />
+          <ProjectsSection onSelectProject={handleSelectProject} />
+          <div className="relative z-30 bg-ink">
+            <TestimonialsSection />
+            <PricingSection onSelectPlan={(plan) => handleOpenConsultation(plan)} />
+            <FaqSection />
+            <ContactSection />
+          </div>
+        </main>
 
-      <ConsultationModal
-        isOpen={isConsultationOpen}
-        onClose={handleCloseConsultation}
-        initialPlan={selectedPlan}
-      />
+        <Footer onOpenConsultation={() => handleOpenConsultation()} />
 
-      <ProjectModal
-        project={activeProject}
-        onClose={handleCloseProject}
-        onBookCall={() => handleOpenConsultation()}
-      />
-    </div>
+        <ConsultationModal
+          isOpen={isConsultationOpen}
+          onClose={handleCloseConsultation}
+          initialPlan={selectedPlan}
+        />
+
+        <ProjectModal
+          project={activeProject}
+          onClose={handleCloseProject}
+          onBookCall={() => {
+            handleCloseProject();
+            handleOpenConsultation();
+          }}
+        />
+      </div>
+    </MotionConfig>
   );
 }
 

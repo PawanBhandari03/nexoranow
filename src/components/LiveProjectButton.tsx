@@ -1,3 +1,5 @@
+import { ArrowUpRight } from 'lucide-react';
+
 interface LiveProjectButtonProps {
   label?: string;
   href?: string;
@@ -17,9 +19,13 @@ export function LiveProjectButton({ label = "Live Project", href, onClick, class
     <a
       href={href || "#projects"}
       onClick={handleClick}
-      className={`inline-block rounded-full border-2 border-[#D7E2EA] px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base font-medium uppercase tracking-widest text-[#D7E2EA] transition-all hover:bg-[#D7E2EA] hover:text-[#0C0C0C] hover:scale-105 active:scale-95 cursor-pointer ${className}`}
+      className={`group inline-flex items-center gap-3 rounded-full border border-bone/25 py-2.5 pl-5 pr-4 text-[14px] font-medium text-bone transition-colors duration-300 hover:border-bone hover:bg-bone hover:text-ink ${className}`}
     >
-      {label}
+      <span className="roll">
+        <span>{label}</span>
+        <span>{label}</span>
+      </span>
+      <ArrowUpRight size={16} className="transition-transform duration-500 group-hover:rotate-45" />
     </a>
   );
 }

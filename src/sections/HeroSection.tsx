@@ -1,112 +1,109 @@
-import { FadeIn } from '../components/FadeIn';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useMotionTemplate, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
+import { ArrowDown } from 'lucide-react';
 import { ContactButton } from '../components/ContactButton';
-import { Hero3DShapes } from '../components/Hero3DShapes';
-import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { RevealText } from '../components/RevealText';
+import { FadeIn } from '../components/FadeIn';
 
 interface HeroSectionProps {
   onOpenConsultation?: () => void;
 }
 
+const WORDMARK = 'nexoranow'.split('');
+const ease = [0.16, 1, 0.3, 1] as const;
+
+function useIndiaTime() {
+  const format = () =>
+    new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date());
+  const [time, setTime] = useState(format);
+  useEffect(() => {
+    const id = setInterval(() => setTime(format()), 15_000);
+    return () => clearInterval(id);
+  }, []);
+  return time;
+}
+
 export function HeroSection({ onOpenConsultation }: HeroSectionProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const time = useIndiaTime();
+
+  // Soft light that trails the cursor
+  const mx = useMotionValue(-400);
+  const my = useMotionValue(-400);
+  const sx = useSpring(mx, { stiffness: 80, damping: 20 });
+  const sy = useSpring(my, { stiffness: 80, damping: 20 });
+  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${sx}px ${sy}px, rgb(255 91 31 / 0.10), transparent 70%)`;
+
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
+  const wordmarkY = useTransform(scrollYProgress, [0, 1], ['0%', '35%']);
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-20%']);
+  const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
   return (
-    <section className="relative min-h-screen flex flex-col justify-between overflow-x-clip pt-28 sm:pt-32 pb-6">
-      
-      {/* Background Grid Layer */}
-      <div 
-        className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 1) 1px, transparent 1px)`,
-          backgroundSize: '40px 40px'
-        }}
-      />
+    <section
+      ref={sectionRef}
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        mx.set(e.clientX - rect.left);
+        my.set(e.clientY - rect.top);
+      }}
+      className="relative flex min-h-[100svh] flex-col overflow-hidden px-5 pt-28 sm:px-8 sm:pt-32"
+    >
+      <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: spotlight }} />
 
-      {/* Animated Background Blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
-            x: [0, 50, 0],
-            y: [0, 30, 0]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-[#B600A8] blur-[120px] mix-blend-screen"
+      <motion.div style={{ y: contentY, opacity: fade }} className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col">
+        {/* Meta row */}
+        <FadeIn y={0} delay={0.1} className="grid grid-cols-2 gap-4 border-t border-line pt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-mute md:grid-cols-4">
+          <span>AI automation &amp; software studio</span>
+          <span className="hidden md:block">Founded by Rahul &amp; Pawan</span>
+          <span className="hidden md:block">Working worldwide</span>
+          <span className="text-right">
+            India <span className="text-bone">{time}</span> IST
+          </span>
+        </FadeIn>
+
+        <RevealText
+          as="h1"
+          text={'Software & AI automation,\nbuilt *properly.*'}
+          delay={0.25}
+          stagger={0.06}
+          className="mt-10 text-[clamp(2.6rem,6.4vw,7rem)] font-medium leading-[0.95] tracking-[-0.045em] text-bone sm:mt-14"
         />
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.3, 1],
-            opacity: [0.15, 0.3, 0.15],
-            x: [0, -40, 0],
-            y: [0, -50, 0]
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-[20%] right-[10%] w-[35vw] h-[35vw] rounded-full bg-[#7621B0] blur-[120px] mix-blend-screen"
-        />
-      </div>
 
-      {/* 3D Abstract Centerpiece */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-[48%] -translate-y-1/2 w-full max-w-[800px] h-[600px] z-10 pointer-events-none sm:pointer-events-auto">
-        <Hero3DShapes />
-      </div>
-
-      {/* Full Name "nexoranow" fitted inside screen */}
-      <div className="flex-1 flex flex-col justify-center items-center overflow-hidden px-4 z-20 pointer-events-none relative">
-        <FadeIn delay={0.15} y={40} className="w-full flex justify-center mt-4 sm:mt-2 relative">
-          {/* Subtle blurred glow behind the text */}
-          <div className="absolute inset-0 flex justify-center items-center pointer-events-none blur-3xl opacity-40">
-            <h1 className="hero-heading font-black uppercase tracking-tighter leading-none whitespace-nowrap text-[8.8vw] sm:text-[9.5vw] md:text-[10vw] lg:text-[10.5vw] text-center w-full max-w-full text-[#B600A8]">
-              nexoranow
-            </h1>
-          </div>
-          <h1 
-            className="relative hero-heading font-black uppercase tracking-tighter leading-none whitespace-nowrap text-[8.8vw] sm:text-[9.5vw] md:text-[10vw] lg:text-[10.5vw] text-center w-full max-w-full text-transparent bg-clip-text bg-gradient-to-r from-[#7621B0] via-[#B600A8] to-[#00D4FF] drop-shadow-[0_0_2px_rgba(255,255,255,0.2)] selection:bg-[#B600A8]/30"
-            style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}
-          >
-            nexoranow
-          </h1>
-        </FadeIn>
-      </div>
-
-      {/* Bottom Bar */}
-      <div className="relative z-30 flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-4 sm:gap-6 pb-16 sm:pb-8 px-5 sm:px-8 md:px-10 max-w-7xl mx-auto w-full mt-auto">
-        <FadeIn delay={0.35} y={20} className="w-full sm:w-auto">
-          <div className="group relative transition-all duration-300 w-full sm:w-auto">
-            {/* Top Left Bracket */}
-            <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#B600A8] group-hover:w-full group-hover:h-full group-hover:border-[#B600A8]/40 transition-all duration-700 z-20 pointer-events-none" />
-            
-            {/* Bottom Right Bracket */}
-            <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#00D4FF] group-hover:w-full group-hover:h-full group-hover:border-[#00D4FF]/40 transition-all duration-700 z-20 pointer-events-none" />
-            
-            {/* Inner Content */}
-            <div className="relative h-full w-full bg-[#0A0A0D]/80 backdrop-blur-md px-8 py-4 sm:px-10 sm:py-5 flex items-center justify-center overflow-hidden max-w-none sm:max-w-[450px] shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-               <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8]/0 via-[#7621B0]/5 to-[#00D4FF]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-              <p className="relative z-10 text-[#D7E2EA] font-light uppercase tracking-[0.15em] leading-relaxed text-[11px] sm:text-xs md:text-sm text-center sm:text-left w-full">
-                an ai automation & software development agency driven by crafting striking and unforgettable projects
-              </p>
-            </div>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={0.5} y={20} className="w-full sm:w-auto flex justify-center sm:justify-end">
-          <ContactButton 
-            label="Book a Free Consultation" 
-            onClick={onOpenConsultation}
-            className="w-full sm:w-auto"
-          />
-        </FadeIn>
-      </div>
-
-      {/* Scroll Indicator */}
-      <motion.div 
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 text-white/40 pointer-events-none"
-      >
-        <span className="text-[10px] uppercase tracking-widest font-medium">Scroll to explore</span>
-        <ChevronDown size={16} />
+        <div className="mt-10 grid grid-cols-1 items-end gap-8 md:grid-cols-12 sm:mt-12">
+          <FadeIn delay={0.7} y={20} className="md:col-span-5 md:col-start-1">
+            <p className="max-w-[440px] text-[16px] leading-relaxed text-bone/70 sm:text-[17px]">
+              We design and build websites, custom software and AI agents for startups and growing businesses — the kind of
+              work that quietly saves your team hours every week.
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.85} y={20} className="flex flex-wrap items-center gap-5 md:col-span-7 md:justify-end">
+            <ContactButton label="Book a free consultation" onClick={onOpenConsultation} />
+            <a href="#projects" className="group flex items-center gap-2 text-[15px] text-bone/80 transition-colors hover:text-bone">
+              <span className="link-line">See our work</span>
+              <ArrowDown size={16} className="transition-transform duration-500 group-hover:translate-y-1" />
+            </a>
+          </FadeIn>
+        </div>
       </motion.div>
 
+      {/* Giant wordmark */}
+      <motion.div style={{ y: wordmarkY }} className="relative z-0 mx-auto mt-10 w-full max-w-[1400px] select-none sm:mt-14" aria-hidden>
+        <div className="flex justify-between text-[19vw] font-semibold leading-[0.78] tracking-[-0.07em] text-bone min-[1474px]:text-[276px]">
+          {WORDMARK.map((ch, i) => (
+            <span key={i} className="inline-block overflow-hidden pb-[0.04em]">
+              <motion.span
+                className={`inline-block ${i >= 6 ? 'text-accent' : ''}`}
+                initial={{ y: '105%' }}
+                animate={{ y: '0%' }}
+                transition={{ duration: 1.2, delay: 0.35 + i * 0.045, ease }}
+              >
+                {ch}
+              </motion.span>
+            </span>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 }

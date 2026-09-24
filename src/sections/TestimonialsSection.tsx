@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion';
-import { Quote, Star } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FadeIn } from '../components/FadeIn';
+import { SectionLabel } from '../components/SectionLabel';
 
 const TESTIMONIALS = [
   {
@@ -19,42 +21,75 @@ const TESTIMONIALS = [
   }
 ];
 
+const ROTATE_MS = 8000;
+
 export function TestimonialsSection() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = setTimeout(() => setActive((a) => (a + 1) % TESTIMONIALS.length), ROTATE_MS);
+    return () => clearTimeout(id);
+  }, [active, paused]);
+
+  const current = TESTIMONIALS[active];
+
   return (
-    <section id="testimonials" className="py-24 bg-[#0C0C0C]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-xs sm:text-sm font-bold tracking-widest text-[#00D4FF] uppercase">Client Stories</h2>
-          <p className="mt-2 text-3xl leading-8 font-black tracking-tight text-white sm:text-4xl uppercase">
-            Trusted by Industry Leaders
-          </p>
+    <section id="testimonials" className="border-t border-line px-5 py-28 sm:px-8 sm:py-36">
+      <div
+        className="mx-auto max-w-[1400px]"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        <FadeIn y={10}>
+          <SectionLabel index="04">Client words</SectionLabel>
+        </FadeIn>
+
+        <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-9 min-h-[260px] sm:min-h-[300px]">
+            <span className="serif-accent block h-[48px] text-[110px] leading-[0.9] text-accent" aria-hidden>“</span>
+            <AnimatePresence mode="wait">
+              <motion.blockquote
+                key={active}
+                initial={{ opacity: 0, y: 24, filter: 'blur(6px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -16, filter: 'blur(6px)' }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-2 text-[clamp(1.7rem,3.6vw,3.4rem)] font-normal leading-[1.12] tracking-[-0.035em] text-bone"
+              >
+                {current.content}
+              </motion.blockquote>
+            </AnimatePresence>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {TESTIMONIALS.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.name}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group bg-[#0A0A0D] border border-white/10 hover:border-[#7621B0]/50 p-8 rounded-[24px] flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(182,0,168,0.15)] relative"
+        {/* Author selector */}
+        <div className="mt-14 grid grid-cols-1 border-t border-line sm:grid-cols-3">
+          {TESTIMONIALS.map((t, i) => (
+            <button
+              key={t.name}
+              type="button"
+              onClick={() => setActive(i)}
+              className="group relative flex flex-col items-start gap-1 border-b border-line py-5 text-left sm:border-b-0 sm:pr-6"
             >
-              {/* 5-star rating */}
-              <div className="flex items-center gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} className="fill-[#00D4FF] text-[#00D4FF]" />
-                ))}
-              </div>
-
-              <Quote className="text-white/20 absolute top-8 right-8 z-0 transition-colors duration-500 group-hover:text-[#B600A8]/40" size={40} strokeWidth={3} />
-                <p className="text-[#D7E2EA] font-light italic mb-8 relative z-10 leading-relaxed text-sm">"{testimonial.content}"</p>
-                
-                <div className="relative z-10 mt-auto">
-                  <h4 className="text-white font-bold uppercase tracking-wider text-sm">{testimonial.name}</h4>
-                  <p className="text-[#B600A8] text-[11px] font-semibold uppercase tracking-widest mt-1">{testimonial.role}</p>
-                </div>
-            </motion.div>
+              {/* progress bar */}
+              <span className="absolute left-0 top-[-1px] h-px w-full overflow-hidden">
+                {i === active && (
+                  <motion.span
+                    key={`${active}-${paused}`}
+                    className="block h-full bg-accent"
+                    initial={{ width: paused ? '100%' : '0%' }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: paused ? 0 : ROTATE_MS / 1000, ease: 'linear' }}
+                  />
+                )}
+              </span>
+              <span className={`text-[16px] font-medium transition-colors duration-300 ${i === active ? 'text-bone' : 'text-bone/40 group-hover:text-bone/70'}`}>
+                {t.name}
+              </span>
+              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-mute">{t.role}</span>
+            </button>
           ))}
         </div>
       </div>

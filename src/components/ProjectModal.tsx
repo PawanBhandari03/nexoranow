@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Globe } from 'lucide-react';
+import { X, ArrowUpRight } from 'lucide-react';
 import { ContactButton } from './ContactButton';
 import { useEffect } from 'react';
+import { useScrollLock } from '../lib/smoothScroll';
 
 export interface ProjectData {
   num: string;
@@ -20,75 +21,68 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ project, onClose, onBookCall }: ProjectModalProps) {
-  // Prevent scrolling on body when modal is open
+  useScrollLock(!!project);
+
   useEffect(() => {
-    if (project) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [project]);
+    if (!project) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [project, onClose]);
 
   return (
     <AnimatePresence>
       {project && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8">
+        <div className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-6 md:p-8" role="dialog" aria-modal="true" aria-labelledby="project-title">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#0C0C0C]/80 backdrop-blur-xl"
+            className="absolute inset-0 bg-ink/70 backdrop-blur-md"
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-6xl max-h-[90vh] bg-[#111] border-2 border-white/10 rounded-[30px] sm:rounded-[40px] overflow-hidden flex flex-col shadow-2xl"
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="relative flex max-h-[92svh] w-full max-w-6xl flex-col overflow-hidden rounded-t-[28px] border border-line bg-ink-2 shadow-2xl sm:rounded-[28px]"
           >
             {/* Header */}
-            <div className="flex justify-between items-center p-6 sm:p-8 border-b border-white/10 shrink-0">
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-3">
-                  <span className="text-[#D7E2EA]/60 uppercase tracking-widest text-xs font-semibold">
-                    {project.category}
-                  </span>
-                  <span className="text-[#4ade80] text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[#4ade80]/10 border border-[#4ade80]/20">
-                    Project {project.num}
-                  </span>
-                </div>
-                <h2 className="text-white font-bold text-2xl sm:text-3xl lg:text-4xl">
+            <div className="flex shrink-0 items-start justify-between gap-4 border-b border-line p-6 sm:p-8">
+              <div className="flex flex-col gap-2">
+                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">
+                  <span className="text-accent">{project.num}</span> — {project.category}
+                </span>
+                <h2 id="project-title" className="text-[clamp(1.7rem,3.6vw,3rem)] font-medium leading-none tracking-[-0.045em] text-bone">
                   {project.name}
                 </h2>
               </div>
               <button
+                type="button"
                 onClick={onClose}
-                className="p-3 bg-white/5 hover:bg-white/10 transition-colors rounded-full text-white"
+                aria-label="Close"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-bone transition-all duration-500 hover:rotate-90 hover:border-bone"
               >
-                <X size={24} />
+                <X size={20} />
               </button>
             </div>
 
             {/* Content Body - Scrollable */}
-            <div className="flex-1 overflow-y-auto p-6 sm:p-8 custom-scrollbar space-y-8">
-              {/* Description & Tech Stack */}
+            <div data-lenis-prevent className="flex-1 space-y-6 overflow-y-auto p-6 sm:p-8">
               {(project.description || (project.techStack && project.techStack.length > 0)) && (
-                <div className="bg-[#181818] border border-white/5 p-6 rounded-[24px] flex flex-col md:flex-row justify-between gap-6 items-start md:items-center">
-                  <div className="flex-1 space-y-3">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:items-end">
+                  <div className="space-y-5 md:col-span-8">
                     {project.description && (
-                      <p className="text-[#D7E2EA]/80 text-base leading-relaxed">
+                      <p className="text-[16px] leading-relaxed text-bone/75 sm:text-[17px]">
                         {project.description}
                       </p>
                     )}
                     {project.techStack && project.techStack.length > 0 && (
-                      <div className="flex flex-wrap gap-2 pt-1">
+                      <div className="flex flex-wrap gap-2">
                         {project.techStack.map((tech) => (
-                          <span key={tech} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-[#D7E2EA]/70">
+                          <span key={tech} className="rounded-full border border-line px-3 py-1 font-mono text-[11px] text-bone/65">
                             {tech}
                           </span>
                         ))}
@@ -97,54 +91,45 @@ export function ProjectModal({ project, onClose, onBookCall }: ProjectModalProps
                   </div>
 
                   {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-[#4ade80] hover:bg-[#22c55e] text-[#0C0C0C] font-bold text-sm rounded-full transition-all hover:scale-105"
-                    >
-                      <Globe size={16} />
-                      <span>Visit {project.liveUrl.replace(/^https?:\/\//, '')}</span>
-                      <ExternalLink size={14} />
-                    </a>
+                    <div className="md:col-span-4 md:justify-self-end">
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-3 rounded-full bg-bone py-2 pl-5 pr-2 text-[14px] font-medium text-ink transition-colors duration-300 hover:bg-accent"
+                      >
+                        Visit {project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-bone">
+                          <ArrowUpRight size={15} className="transition-transform duration-500 group-hover:rotate-45" />
+                        </span>
+                      </a>
+                    </div>
                   )}
                 </div>
               )}
 
               {/* Images Grid */}
-              <div className="flex flex-col gap-6">
-                <div className="overflow-hidden rounded-[20px] border border-white/10 bg-[#161616]">
-                  <img
-                    src={project.imgs[0]}
-                    alt={`${project.name} preview 1`}
-                    className="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-300"
-                  />
+              <div className="flex flex-col gap-4">
+                <div className="overflow-hidden rounded-[18px] border border-line bg-ink-3">
+                  <img src={project.imgs[0]} alt={`${project.name} preview 1`} className="h-auto w-full object-cover" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="overflow-hidden rounded-[20px] border border-white/10 bg-[#161616]">
-                    <img
-                      src={project.imgs[1]}
-                      alt={`${project.name} preview 2`}
-                      className="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-300"
-                    />
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div className="overflow-hidden rounded-[18px] border border-line bg-ink-3">
+                    <img src={project.imgs[1]} alt={`${project.name} preview 2`} loading="lazy" className="h-auto w-full object-cover" />
                   </div>
-                  <div className="overflow-hidden rounded-[20px] border border-white/10 bg-[#161616]">
-                    <img
-                      src={project.imgs[2]}
-                      alt={`${project.name} preview 3`}
-                      className="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-300"
-                    />
+                  <div className="overflow-hidden rounded-[18px] border border-line bg-ink-3">
+                    <img src={project.imgs[2]} alt={`${project.name} preview 3`} loading="lazy" className="h-auto w-full object-cover" />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Footer */}
-            <div className="p-6 sm:p-8 border-t border-white/10 bg-[#111]/80 backdrop-blur-md shrink-0 flex flex-col sm:flex-row justify-between items-center gap-4">
-              <p className="text-white/60 text-sm max-w-md text-center sm:text-left">
-                Ready to build something similar for your business? Let's discuss your next big project.
+            <div className="flex shrink-0 flex-col items-center justify-between gap-4 border-t border-line p-5 sm:flex-row sm:p-6">
+              <p className="max-w-md text-center text-[14px] text-bone/60 sm:text-left">
+                Want something like this for your business? Let&apos;s talk about your next project.
               </p>
-              <ContactButton label="Book a Call" onClick={onBookCall} className="w-full sm:w-auto" />
+              <ContactButton label="Book a call" onClick={onBookCall} className="w-full sm:w-auto" />
             </div>
           </motion.div>
         </div>
@@ -152,4 +137,3 @@ export function ProjectModal({ project, onClose, onBookCall }: ProjectModalProps
     </AnimatePresence>
   );
 }
-

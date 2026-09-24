@@ -1,206 +1,223 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Mail, MapPin, CheckCircle } from 'lucide-react';
+import { ArrowUpRight, Check } from 'lucide-react';
+import { FadeIn } from '../components/FadeIn';
+import { RevealText } from '../components/RevealText';
+import { SectionLabel } from '../components/SectionLabel';
+import { CONTACT_EMAIL, sendInquiry, type InquiryResult } from '../lib/inquiry';
+
+const SERVICES = [
+  'Full-Stack Web Development',
+  'AI Solutions & Agents',
+  'Business Automation',
+  'Custom Software Architecture',
+];
+
+const EMPTY = { name: '', email: '', service: SERVICES[0], message: '' };
+
+const fieldClass =
+  'peer w-full border-b border-line bg-transparent pb-3 pt-7 text-[17px] text-bone placeholder-transparent transition-colors duration-300 focus:border-bone focus:outline-none';
+const labelClass =
+  'pointer-events-none absolute left-0 top-7 origin-left text-[15px] text-mute transition-all duration-300 peer-focus:top-0 peer-focus:text-[11px] peer-focus:font-mono peer-focus:uppercase peer-focus:tracking-[0.14em] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:font-mono peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.14em]';
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    service: 'Full-Stack Web Development',
-    message: '',
-  });
+  const [formData, setFormData] = useState(EMPTY);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'error' | InquiryResult>('idle');
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1000);
+    setStatus('sending');
+    try {
+      const result = await sendInquiry(`New project inquiry — ${formData.name}`, {
+        Name: formData.name,
+        Email: formData.email,
+        'Interested in': formData.service,
+        'Project details': formData.message,
+      });
+      setStatus(result);
+    } catch {
+      setStatus('error');
+    }
   };
 
+  const done = status === 'sent' || status === 'mailto';
+
   return (
-    <section id="contact" className="py-24 relative overflow-hidden bg-[#0C0C0C]">
-      {/* Background decoration - ambient glow */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-[#B600A8]/10 via-[#7621B0]/5 to-transparent rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-[#00D4FF]/10 to-transparent rounded-full blur-[100px] pointer-events-none" />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          
-          {/* Contact Info */}
-          <div className="relative z-10">
-            <h2 className="text-xs sm:text-sm font-bold tracking-widest text-[#00D4FF] uppercase mb-2">Get In Touch</h2>
-            <h3 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight uppercase">
-              Let's Build Something <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B600A8] via-[#7621B0] to-[#00D4FF]">Extraordinary</span>
-            </h3>
-            <p className="text-[#D7E2EA]/70 text-lg mb-10 max-w-md font-light leading-relaxed">
-              Ready to elevate your digital presence? Reach out to discuss your project, and we'll get back to you within 24 hours.
+    <section id="contact" className="border-t border-line px-5 py-28 sm:px-8 sm:py-36">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-16 lg:grid-cols-12">
+        {/* Contact Info */}
+        <div className="lg:col-span-5">
+          <FadeIn y={10}>
+            <SectionLabel index="07">Contact</SectionLabel>
+          </FadeIn>
+          <RevealText
+            text={"Let's build\nsomething\n*worth using.*"}
+            className="mt-8 text-[clamp(2.4rem,5vw,4.8rem)] font-medium leading-[0.98] tracking-[-0.045em] text-bone"
+          />
+          <FadeIn delay={0.2}>
+            <p className="mt-8 max-w-[400px] text-[16px] leading-relaxed text-bone/65">
+              Tell us what you&apos;re working on. We read every message ourselves and reply within 24 hours.
             </p>
-            
-            <div className="space-y-8">
-              <div className="flex items-center group cursor-pointer">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center mr-5 relative transition-transform duration-300 group-hover:scale-110">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#B600A8] to-[#00D4FF] opacity-20 rounded-full" />
-                  <Mail className="text-[#00D4FF] relative z-10" size={20} />
-                </div>
-                <div>
-                  <p className="text-xs text-[#D7E2EA]/50 font-bold uppercase tracking-widest mb-1">Email Us</p>
-                  <a href="mailto:hello@nexoranow.com" className="text-white hover:text-[#00D4FF] font-semibold transition-colors">
-                    hello@nexoranow.com
-                  </a>
-                </div>
+
+            <dl className="mt-12 grid max-w-[420px] grid-cols-2 gap-6 border-t border-line pt-6">
+              <div>
+                <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">Email</dt>
+                <dd className="mt-2">
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="link-line text-[15px] text-bone">{CONTACT_EMAIL}</a>
+                </dd>
               </div>
-              
-              <div className="flex items-center group cursor-pointer">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center mr-5 relative transition-transform duration-300 group-hover:scale-110">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#B600A8] to-[#00D4FF] opacity-20 rounded-full" />
-                  <MapPin className="text-[#B600A8] relative z-10" size={20} />
-                </div>
-                <div>
-                  <p className="text-xs text-[#D7E2EA]/50 font-bold uppercase tracking-widest mb-1">Location</p>
-                  <p className="text-white font-semibold">Available Worldwide</p>
-                </div>
+              <div>
+                <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">Location</dt>
+                <dd className="mt-2 text-[15px] text-bone">India · Available worldwide</dd>
               </div>
-            </div>
-          </div>
-          
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="group"
-          >
-            <div className="relative bg-[#0A0A0D] border border-white/10 group-hover:border-[#7621B0]/50 p-8 md:p-10 rounded-[32px] h-full shadow-[0_20px_40px_rgba(182,0,168,0.05)] transition-all duration-500">
-              <AnimatePresence mode="wait">
-                {!isSubmitted ? (
-                  <motion.form 
-                    key="form"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onSubmit={handleSubmit} 
-                    className="space-y-6"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="group/input relative">
-                        <label htmlFor="name" className="block text-xs font-bold uppercase tracking-widest text-[#D7E2EA]/70 mb-2 ml-1">Your Name</label>
-                        <div className="relative p-[1px] rounded-xl overflow-hidden focus-within:shadow-[0_0_15px_rgba(182,0,168,0.3)] transition-shadow">
-                          <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8] to-[#00D4FF] opacity-10 group-focus-within/input:opacity-100 transition-opacity duration-300" />
-                          <input
-                            type="text"
-                            id="name"
-                            required
-                            value={formData.name}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full relative bg-[#0C0C0C] rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none text-sm"
-                            placeholder="John Doe"
-                          />
-                        </div>
-                      </div>
-                      <div className="group/input relative">
-                        <label htmlFor="email" className="block text-xs font-bold uppercase tracking-widest text-[#D7E2EA]/70 mb-2 ml-1">Email Address</label>
-                        <div className="relative p-[1px] rounded-xl overflow-hidden focus-within:shadow-[0_0_15px_rgba(0,212,255,0.3)] transition-shadow">
-                          <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8] to-[#00D4FF] opacity-10 group-focus-within/input:opacity-100 transition-opacity duration-300" />
-                          <input
-                            type="email"
-                            id="email"
-                            required
-                            value={formData.email}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full relative bg-[#0C0C0C] rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none text-sm"
-                            placeholder="john@example.com"
-                          />
-                        </div>
-                      </div>
+            </dl>
+          </FadeIn>
+        </div>
+
+        {/* Contact Form */}
+        <FadeIn delay={0.15} className="lg:col-span-6 lg:col-start-7">
+          <div className="rounded-[28px] border border-line bg-ink-2 p-6 sm:p-10">
+            <AnimatePresence mode="wait">
+              {!done ? (
+                <motion.form
+                  key="form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-8"
+                >
+                  <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="name"
+                        required
+                        autoComplete="name"
+                        placeholder="Your name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className={fieldClass}
+                      />
+                      <label htmlFor="name" className={labelClass}>Your name</label>
                     </div>
-                    
-                    <div className="group/input relative">
-                      <label htmlFor="service" className="block text-xs font-bold uppercase tracking-widest text-[#D7E2EA]/70 mb-2 ml-1">Interested In</label>
-                      <div className="relative p-[1px] rounded-xl overflow-hidden focus-within:shadow-[0_0_15px_rgba(182,0,168,0.3)] transition-shadow">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8] to-[#00D4FF] opacity-10 group-focus-within/input:opacity-100 transition-opacity duration-300" />
-                        <select
-                          id="service"
-                          value={formData.service}
-                          onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                          className="w-full relative bg-[#0C0C0C] rounded-xl px-4 py-3.5 text-white focus:outline-none appearance-none text-sm"
-                        >
-                          <option>Full-Stack Web Development</option>
-                          <option>AI Solutions & Agents</option>
-                          <option>Business Automation</option>
-                          <option>Custom Software Architecture</option>
-                        </select>
-                      </div>
+                    <div className="relative">
+                      <input
+                        type="email"
+                        id="email"
+                        required
+                        autoComplete="email"
+                        placeholder="Email address"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className={fieldClass}
+                      />
+                      <label htmlFor="email" className={labelClass}>Email address</label>
                     </div>
-                    
-                    <div className="group/input relative">
-                      <label htmlFor="message" className="block text-xs font-bold uppercase tracking-widest text-[#D7E2EA]/70 mb-2 ml-1">Project Details</label>
-                      <div className="relative p-[1px] rounded-xl overflow-hidden focus-within:shadow-[0_0_15px_rgba(182,0,168,0.3)] transition-shadow">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#B600A8] to-[#00D4FF] opacity-10 group-focus-within/input:opacity-100 transition-opacity duration-300" />
-                        <textarea
-                          id="message"
-                          rows={4}
-                          required
-                          value={formData.message}
-                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          className="w-full relative bg-[#0C0C0C] rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none resize-none text-sm"
-                          placeholder="Tell us about your goals and requirements..."
-                        ></textarea>
-                      </div>
+                  </div>
+
+                  <fieldset>
+                    <legend className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">Interested in</legend>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {SERVICES.map((service) => {
+                        const selected = formData.service === service;
+                        return (
+                          <label
+                            key={service}
+                            className={`flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-[14px] transition-colors duration-300 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent ${
+                              selected ? 'border-bone bg-bone text-ink' : 'border-line text-bone/75 hover:border-bone/50 hover:text-bone'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="service"
+                              value={service}
+                              checked={selected}
+                              onChange={() => setFormData({ ...formData, service })}
+                              className="sr-only"
+                            />
+                            {selected && <Check size={14} />}
+                            {service}
+                          </label>
+                        );
+                      })}
                     </div>
-                    
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="group/btn mt-2 w-full rounded-xl py-4 flex items-center justify-center transition-all duration-300 border bg-transparent border-white/20 hover:border-[#B600A8]/50 hover:bg-white/5 text-white hover:shadow-[0_0_15px_rgba(182,0,168,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? (
-                        <span className="text-xs font-bold uppercase tracking-widest animate-pulse">Sending Message...</span>
-                      ) : (
-                        <>
-                          <span className="text-xs font-bold uppercase tracking-widest">Send Message</span>
-                          <Send size={16} className="ml-2 transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-                        </>
-                      )}
-                    </button>
-                  </motion.form>
-                ) : (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="py-12 text-center flex flex-col items-center justify-center h-full min-h-[300px]"
-                  >
-                    <div className="w-16 h-16 bg-[#B600A8]/20 border border-[#B600A8]/50 rounded-full flex items-center justify-center mb-6 text-[#00D4FF] shadow-[0_0_20px_rgba(182,0,168,0.3)]">
-                      <CheckCircle size={32} />
-                    </div>
-                    <h4 className="text-2xl font-bold text-white mb-3 uppercase tracking-wide">Message Delivered!</h4>
-                    <p className="text-[#D7E2EA]/70 text-sm max-w-sm mb-8 leading-relaxed font-light">
-                      Thank you <span className="text-white font-bold">{formData.name}</span>. We've received your request and will reply to <span className="text-[#00D4FF] font-semibold">{formData.email}</span> within 24 hours.
+                  </fieldset>
+
+                  <div className="relative">
+                    <textarea
+                      id="message"
+                      rows={4}
+                      required
+                      placeholder="Project details"
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className={`${fieldClass} resize-none`}
+                    />
+                    <label htmlFor="message" className={labelClass}>Tell us about your goals and requirements</label>
+                  </div>
+
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-[13px] text-mute" aria-live="polite">
+                      {status === 'error'
+                        ? <span className="text-accent">Something went wrong — please email us directly.</span>
+                        : 'We usually reply within a day.'}
                     </p>
                     <button
-                      onClick={() => {
-                        setIsSubmitted(false);
-                        setFormData({ name: '', email: '', service: 'Full-Stack Web Development', message: '' });
-                      }}
-                      className="px-6 py-3 rounded-full border border-white/20 text-xs font-bold uppercase tracking-widest text-white hover:bg-white/10 transition-colors hover:border-[#B600A8]/50"
+                      type="submit"
+                      disabled={status === 'sending'}
+                      className="group flex items-center justify-between gap-4 rounded-full bg-accent py-2 pl-6 pr-2 text-[15px] font-medium text-ink transition-colors duration-300 hover:bg-bone disabled:opacity-60"
                     >
-                      Send Another Message
+                      <span className="roll">
+                        <span>{status === 'sending' ? 'Sending…' : 'Send message'}</span>
+                        <span>{status === 'sending' ? 'Sending…' : 'Send message'}</span>
+                      </span>
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ink text-bone">
+                        <ArrowUpRight size={18} className="transition-transform duration-500 group-hover:rotate-45" />
+                      </span>
                     </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-          
-        </div>
+                  </div>
+                </motion.form>
+              ) : (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex min-h-[380px] flex-col justify-between"
+                >
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-ink">
+                    <Check size={22} />
+                  </span>
+                  <div>
+                    <h3 className="text-[clamp(1.8rem,3vw,2.6rem)] font-medium leading-tight tracking-[-0.04em] text-bone">
+                      {status === 'sent' ? (
+                        <>Thanks, {formData.name.split(' ')[0]}. <span className="serif-accent text-accent">Talk soon.</span></>
+                      ) : (
+                        <>Almost there — <span className="serif-accent text-accent">hit send</span> in your email app.</>
+                      )}
+                    </h3>
+                    <p className="mt-4 max-w-[420px] text-[15px] leading-relaxed text-bone/60">
+                      {status === 'sent'
+                        ? <>We&apos;ve got your message and will reply to <span className="text-bone">{formData.email}</span> within 24 hours.</>
+                        : <>We&apos;ve opened a pre-filled email to {CONTACT_EMAIL}. If nothing opened, just write to us there directly.</>}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStatus('idle');
+                      setFormData(EMPTY);
+                    }}
+                    className="link-line self-start text-[14px] text-bone/70 hover:text-bone"
+                  >
+                    Send another message
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );
